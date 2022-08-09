@@ -1,7 +1,7 @@
 project "Unrar"
     kind "StaticLib"
     language "C++"
-    architecture "x32"
+    architecture "x86"
     characterset "MBCS"
 
     targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}sd")

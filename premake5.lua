@@ -1,6 +1,6 @@
 workspace "Neoncube"
     configurations {"Debug", "Release"}
-    architecture "x64"
+    architecture "x86"
     startproject "Neoncube"
 
     outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
@@ -35,6 +35,8 @@ project "Neoncube"
     kind "ConsoleApp"
     language "C++"
 
+    characterset "MBCS"
+
     targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
@@ -46,10 +48,7 @@ project "Neoncube"
     }
 
     includedirs {
-        IncludeDir["browser"],
-        IncludeDir["libgrf"],
-        IncludeDir["unrar"],
-        IncludeDir["zlib"]
+        "%{wks.location}"
     }
 
     links {
@@ -65,6 +64,10 @@ project "Neoncube"
     files {
         "*.h", 
         "*.cpp"
+    }
+
+    defines {
+        "_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS"	
     }
 
     filter "configurations:Debug"

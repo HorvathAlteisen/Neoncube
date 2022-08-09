@@ -1,7 +1,7 @@
 project "zlib"
     kind "StaticLib"
     language "C"
-    platforms "x64"
+    platforms "x86"
 
     targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}sd")
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
