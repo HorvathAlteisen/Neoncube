@@ -1,9 +1,8 @@
 project "Browser"
     kind "StaticLib"
-    language "C"
-    platforms "x86"
+    architecture "x86"
 
-    targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}sd")
+    targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
@@ -26,13 +25,15 @@ project "Browser"
         }
 
     filter "configurations:Debug"
+        staticruntime "on"
         runtime "Debug"
         symbols "on"
 
-        defines {
-            "_DEBUG"
-        }
+        defines {"_DEBUG"}
 
     filter "configurations:Release"
+        staticruntime "on"
         runtime "Release"
         optimize "on"
+
+        defines {"NDEBUG"}

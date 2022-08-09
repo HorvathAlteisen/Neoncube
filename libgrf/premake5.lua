@@ -1,9 +1,8 @@
 project "LibGRF"
     kind "StaticLib"
-    language "C"
-    platforms "x86"
+    architecture "x86"
 
-    targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}sd")
+    targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
     includedirs {
@@ -24,7 +23,6 @@ project "LibGRF"
 
     filter "system:windows"
         systemversion "latest"
-        staticruntime "On"
 
         defines {
             "WIN32",
@@ -34,6 +32,7 @@ project "LibGRF"
         }
     
     filter "configurations:Debug"
+        staticruntime "on"
         runtime "Debug"
         symbols "on"
     
@@ -42,5 +41,8 @@ project "LibGRF"
         }
     
     filter "configurations:Release"
+        staticruntime "on"
         runtime "Release"
         optimize "on"
+        
+        defines {"NDEBUG"}

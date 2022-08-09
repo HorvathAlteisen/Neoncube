@@ -12,13 +12,6 @@ workspace "Neoncube"
     IncludeDir["unrar"] = "%{wks.location}/unrar"
     IncludeDir["zlib"] = "%{wks.location}/zlib"
 
-    print(IncludeDir["browser"])
-    print(IncludeDir["libgrf"])
-    print(IncludeDir["unrar"])
-    print(IncludeDir["zlib"])
-
-    print("%{wks.location}")
-
     flags
 	{
 		"MultiProcessorCompile"
@@ -32,20 +25,13 @@ group "Dependencies"
 group ""
 
 project "Neoncube"
-    kind "ConsoleApp"
+    kind "WindowedApp"
     language "C++"
 
     characterset "MBCS"
 
     targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
-
-    dependson {
-        "Browser",
-        "zlib",
-        "LibGRF",
-        "Unrar"
-    }
 
     includedirs {
         "%{wks.location}"
@@ -58,7 +44,7 @@ project "Neoncube"
         "zlib",
         "LibGRF",
         "Browser",
-        "Unrar"
+        "UnRAR"
 	}
 
     files {
@@ -67,13 +53,29 @@ project "Neoncube"
     }
 
     defines {
-        "_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS"	
+        "_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS",
+        "STRICT",
+        "ZLIB_WINAPI",
+        "GRF_STATIC"
     }
 
+    filter "system:Windows"
+        defines {
+            "WIN32",
+            "_WIN32",
+            "_WINDOWS"
+        }        
+
     filter "configurations:Debug"
-        defines {"NDEBUG"}
+        staticruntime "on"
+        runtime "Debug"
         symbols "On"
 
+        defines {"_DEBUG"}
+
     filter "configurations:Release"
-        defines {"NDEBUG"}
+        staticruntime "on"
+        runtime "Release"
         optimize "On"
+
+        defines {"NDEBUG"}

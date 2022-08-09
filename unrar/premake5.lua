@@ -1,10 +1,9 @@
-project "Unrar"
+project "UnRAR"
     kind "StaticLib"
-    language "C++"
     architecture "x86"
     characterset "MBCS"
 
-    targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}sd")
+    targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
@@ -121,7 +120,6 @@ project "Unrar"
 
     filter "system:windows"
         systemversion "latest"
-        staticruntime "On"
 
         defines {
             "WIN32",
@@ -130,15 +128,17 @@ project "Unrar"
         }
 
     filter "configurations:Debug"
+        staticruntime "on"
         runtime "Debug"
         symbols "On"
         functionlevellinking "on"
         optimize "off"
 
-        defines {
-            "_DEBUG"
-        }
+        defines {"_DEBUG"}
 
     filter "configurations:Release"
+        staticruntime "on"
         runtime "Release"
         optimize "On"
+
+        defines {"NDEBUG"}

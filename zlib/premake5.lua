@@ -1,9 +1,8 @@
 project "zlib"
     kind "StaticLib"
-    language "C"
-    platforms "x86"
+    architecture "x86"
 
-    targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}sd")
+    targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
@@ -28,9 +27,13 @@ project "zlib"
         }
 
     filter "configurations:Debug"
+        staticruntime "on"
+        runtime "Debug"
         defines {"_DEBUG"}
         symbols "On"
 
     filter "configurations:Release"
-        defines {"NDEBUG"}
+        staticruntime "on"
+        runtime "Release"
         optimize "On"
+        defines {"NDEBUG"}
