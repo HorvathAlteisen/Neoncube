@@ -157,7 +157,7 @@ Improved: Better error logging
 --------
 Added: Error logging
 Added: Patch files downloaded via HTTP.
-Added: Built-in web browser: displays PHP, HTML, ASP, and other kind of files. Supports Flash™ and JavaScript™.
+Added: Built-in web browser: displays PHP, HTML, ASP, and other kind of files. Supports Flashï¿½ and JavaScriptï¿½.
 Added: Fully skinable, control how the patch client looks (width, height, X and Y coordinates of buttons, windows, etc)
 Added: GRF extraction 
 Added: GRF repacking 

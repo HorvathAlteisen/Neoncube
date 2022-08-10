@@ -15,4 +15,12 @@
 *.tlog
 *.premake5
 *.lib
-*lib.recipe
+*.recipe
+*.exe
+*.ilk
+*.suo
+*.pch
+*.sln
+*.user
+bin/
+bin-int/
