@@ -8,7 +8,10 @@ project "Neoncube"
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
     includedirs {
-        "%{wks.location}"
+        "src",
+        "vendor",
+        "../Browser/src",
+        "%{wks.location}/Resources"
     }
 
     links {
@@ -22,8 +25,10 @@ project "Neoncube"
 	}
 
     files {
-        "*.h", 
-        "*.cpp"
+        "src/*.h", 
+        "src/*.cpp",
+        "src/*.rc",
+        "%{wks.location}/Resources/*.ico"
     }
 
     defines {

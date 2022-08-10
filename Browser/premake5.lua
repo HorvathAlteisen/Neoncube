@@ -6,8 +6,8 @@ project "Browser"
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
-        "*.c",
-        "*.h"
+        "src/Browser/*.c",
+        "src/Browser/*.h"
     }
 
     defines {
