@@ -1,29 +1,3 @@
-workspace "Neoncube"
-    configurations {"Debug", "Release"}
-    architecture "x86"
-    startproject "Neoncube"
-
-    outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-
-    -- include Dirs
-    IncludeDir = {}
-    IncludeDir["browser"] = "%{wks.location}/browser"
-    IncludeDir["libgrf"] = "%{wks.location}/libgrf"
-    IncludeDir["unrar"] = "%{wks.location}/unrar"
-    IncludeDir["zlib"] = "%{wks.location}/zlib"
-
-    flags
-	{
-		"MultiProcessorCompile"
-	}
-
-group "Dependencies"
-    include "browser"
-    include "libgrf"
-    include "unrar"
-    include "zlib"
-group ""
-
 project "Neoncube"
     kind "WindowedApp"
     language "C++"
