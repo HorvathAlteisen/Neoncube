@@ -20,7 +20,7 @@
 
 #include <zlib/zlib.h>
 
-#include "browser\browser.h"
+#include "Browser\browser.h"
 #include "archivefunc.h"
 #include "btn_load.h"
 #include "grf_func.h"
