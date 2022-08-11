@@ -28,6 +28,11 @@
 ; width = width of a control
 ; height = height of a control
 
+;Window dimensions
+[window]
+minwidth=1000
+minheight=640
+
 ;minimize button
 [minimize]
 xcoord=451

@@ -28,6 +28,8 @@
 
 #include "system.h"
 
+#include "Config/ConfigIni.hpp"
+
 struct inisetting settings;
 
 #define TEMPORARY_GRF "neoncube\\neoncube.grf"
@@ -141,10 +143,12 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	_CrtDumpMemoryLeaks();
 #endif /*_DEBUG*/
 
+	ConfigIni *config = new ConfigIni("neoncube\\neoncube.ini");
+
 	HWND	hwnd;
 	MSG		message;
-	INT		iWidth = 500;
-	INT		iHeight = 500;
+	INT		iWidth = 1000;
+	INT		iHeight = 640;
 	WNDCLASSEXA	wc;
 
 
@@ -242,6 +246,8 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	lstrcatA(STYLEFILE, "\\neoncube.style");
 
 	lstrcatA(SKINFOLDER, settings.szSkin);
+
+	ConfigIni* style = new ConfigIni(STYLEFILE);
 
 	// backup grf option
 	settings.nBackupGRF	    = GetPrivateProfileInt("server", "Backup_GRF", NULL, INIFILE);
@@ -373,7 +379,8 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	wc.hInstance	= hInstance;
 	wc.hIcon		= LoadIcon(NULL, MAKEINTRESOURCE(IDI_ICON));
 	wc.hCursor		= LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground	= (HBRUSH)GetStockObject(NULL_BRUSH);
+	//wc.hbrBackground	= (HBRUSH)GetStockObject(NULL_BRUSH);
+	wc.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(20, 22, 29));
 	wc.lpszMenuName  	= NULL;
 	wc.lpszClassName	= "NeonCube";
 	wc.hIconSm		= LoadIcon(NULL, MAKEINTRESOURCE(IDI_ICON));
@@ -422,9 +429,9 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	hwnd	 = CreateWindowExA(0,
 		"NeonCube",
 		settings.szServerName,
-		WS_POPUP,
+		 WS_POPUP,
 		rc.left, rc.top,
-		iWidth, iHeight,
+		1000, 640,
 		NULL, NULL,
 		hInstance, NULL
 		);

@@ -28,6 +28,7 @@ project "Neoncube"
         "src/*.h", 
         "src/*.cpp",
         "src/*.rc",
+        "src/Config/*.*",
         "%{wks.location}/Resources/*.ico"
     }
 
@@ -38,12 +39,14 @@ project "Neoncube"
         "GRF_STATIC"
     }
 
+    postbuildcommands ("{COPY} %{wks.location}/Resources/neoncube %{wks.location}/bin/" .. outputdir .. "/%{prj.name}/neoncube")
+
     filter "system:Windows"
         defines {
             "WIN32",
             "_WIN32",
             "_WINDOWS"
-        }        
+        }
 
     filter "configurations:Debug"
         staticruntime "on"
