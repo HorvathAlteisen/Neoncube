@@ -143,7 +143,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	_CrtDumpMemoryLeaks();
 #endif /*_DEBUG*/
 
-	ConfigIni *config = new ConfigIni("neoncube\\neoncube.ini");
+	Hermes::ConfigIni *config = new Hermes::ConfigIni("neoncube\\neoncube.ini");
 
 	HWND	hwnd;
 	MSG		message;
@@ -177,6 +177,9 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	DeleteFileA("neoncube\\error.log");
 
 	// checks if neoncube.ini exists
+
+	// std::filesystem::path path = "neoncube\\neoncube.ini";
+	// switch(std::filesystem::exists(path))
 	switch(CheckFileForExistance("neoncube\\neoncube.ini"))
 	{
 
@@ -247,7 +250,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 
 	lstrcatA(SKINFOLDER, settings.szSkin);
 
-	ConfigIni* style = new ConfigIni(STYLEFILE);
+	Hermes::ConfigIni* style = new Hermes::ConfigIni(STYLEFILE);
 
 	// backup grf option
 	settings.nBackupGRF	    = GetPrivateProfileInt("server", "Backup_GRF", NULL, INIFILE);

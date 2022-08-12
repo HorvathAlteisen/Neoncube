@@ -1,34 +1,24 @@
 #include <Windows.h>
 #include <string>
+#include <map>
+#include <filesystem>
+
 #include "Config.hpp"
 
-#define MAXARRSIZE 1024
+namespace Hermes {
 
-class ConfigIni : Config {
-private:
-    std::string configFile;
-    struct inisetting
+    namespace fs = std::filesystem;
+
+    class ConfigIni : Config
     {
-        TCHAR szServerName[100];
-        TCHAR szNoticeURL[MAXARRSIZE];
-        TCHAR szPatchURL[MAXARRSIZE];
-        TCHAR szPatchList[MAXARRSIZE];
-        TCHAR szExecutable[256];
-        TCHAR szPatchFolder[MAXARRSIZE];
-        TCHAR szRegistration[MAXARRSIZE];
-        TCHAR szGrf[50];
-        TCHAR szSkin[256];
-        WORD nBackupGRF;
-        WORD nStartupOption;
-        TCHAR szRagExeCall[MAXARRSIZE];
-        UINT nPatchPort;
+        private:
+            fs::path m_PathConfigFile;
+            std::map<std::string, std::map<std::wstring, std::wstring>> Config;
 
-        UINT fDebugMode;
-        TCHAR szRarPassword[MAXARRSIZE];
+        public:
+            ConfigIni(std::string configFilePath);
+            virtual std::string getString(std::string section, std::string Key) override;
+            virtual uint32_t getInt(std::string section, std::string Key) override;
+            void Devconsole();
     };
-
-public:
-    ConfigIni(std::string configFilePath);
-    virtual std::string getString(std::string section, std::string Key) override;
-    virtual int getInt(std::string section, std::string Key) override;
-};
+}

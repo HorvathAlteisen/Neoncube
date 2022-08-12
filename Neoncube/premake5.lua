@@ -1,6 +1,7 @@
 project "Neoncube"
     kind "WindowedApp"
     language "C++"
+    cppdialect "C++17"
 
     characterset "MBCS"
 
