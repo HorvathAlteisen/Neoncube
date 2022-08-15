@@ -1,7 +1,8 @@
 #include "Application.hpp"
 #include "Window.hpp"
 
-namespace Hermes {
+namespace Hermes
+{
     Application::Application()
     {
         WindowProps props = {};
@@ -10,6 +11,5 @@ namespace Hermes {
 
     void Application::Run()
     {
-
     }
 }

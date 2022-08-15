@@ -1,15 +1,21 @@
+#pragma once
+#include <cstdint>
 
-namespace Hermes {
-    class WindowsWindow
+#ifdef _WIN32
+#include <Windows.h>
+#undef MessageBox
+#endif
+
+#include "Core/Window.hpp"
+
+namespace Hermes
+{
+    class WindowsWindow : Window
     {
-        public:
-            virtual ~Window = default;
+    public:
+        WindowsWindow(const WindowProps &props);
 
-            virtual void OnUpdate() = 0;
-
-            virtual uint32_t GetWidth const = 0;
-            virtual uint32_t GetHeight const = 0;
-
-            static Window Create(const WindowProperties props = WindowProperties())
+    private:
+        bool InitInstance();
     };
 }

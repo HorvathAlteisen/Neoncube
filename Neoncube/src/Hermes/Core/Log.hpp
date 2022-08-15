@@ -1,0 +1,6 @@
+namespace Hermes
+{
+    class Log
+    {
+    };
+}

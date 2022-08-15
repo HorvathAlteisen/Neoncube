@@ -30,7 +30,8 @@ project "Neoncube"
         "src/*.h", 
         "src/*.cpp",
         "src/*.rc",
-        "src/Config/*.*",
+        "src/Hermes/Config/*.*",
+        "src/Hermes/Core/*.*",
         "%{wks.location}/Resources/*.ico"
     }
 

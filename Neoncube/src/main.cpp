@@ -12,6 +12,9 @@
 #include "precompiled.h"
 
 #include "main.h"
+
+
+
 #include "resource.h"
 
 #include <malloc.h>
@@ -28,8 +31,13 @@
 
 #include "system.h"
 
+#ifdef _WIN32
+#undef MessageBox
+#endif
+
 #include "Config/ConfigToml.hpp"
-#include "Core/Application.hpp"
+#include "Hermes/Core/Application.hpp"
+#include "Hermes/Core/Window.hpp"
 
 struct inisetting settings;
 
@@ -135,9 +143,10 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	_CrtDumpMemoryLeaks();
 #endif /*_DEBUG*/
 
-	Hermes::ConfigToml* config;
+	Hermes::ConfigToml *settings;
+	Hermes::ConfigToml *styleConfig;
 
-	Hermes::Application* app = Hermes::Application();
+	Hermes::Application *app = new Hermes::Application();
 	app->Run();
 
 	HWND hwnd;
@@ -167,17 +176,19 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	}
 
 	// prepare error.log
-	DeleteFileA("neoncube\\error.log");
+	std::filesystem::remove("neoncube\\error.log");
+	//old: DeleteFileA("neoncube\\error.log");
 
 	// checks if neoncube.ini exists
 	try
 	{
-		config = new Hermes::ConfigToml("neoncube\\neoncube.toml");
+		settings = new Hermes::ConfigToml("neoncube\\neoncube.toml");
 	}
-	catch (LPCSTR message)
+	catch (std::string message)
 	{
 		AddErrorLog("%s\n", message);
-		MessageBoxA(NULL, message, "Error", MB_OK | MB_ICONERROR);
+		Hermes::Window::MessageBox(nullptr, message, "Error", MB_OK | MB_ICONERROR);
+		// old: MessageBoxA(NULL, message, "Error", MB_OK | MB_ICONERROR);
 		return -1;
 	}
 
@@ -213,7 +224,8 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	}
 	catch (LPCSTR message)
 	{
-		MessageBoxA(NULL, message, "Error", MB_OK | MB_ICONERROR);
+		Hermes::Window::MessageBox(nullptr, message, "Error", MB_OK | MB_ICONERROR);
+		// old: MessageBoxA(NULL, message, "Error", MB_OK | MB_ICONERROR);
 		AddErrorLog("%s\n", message);
 		return -1;
 	}
@@ -221,7 +233,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	settings.nPatchPort = GetPrivateProfileInt("server", "patch_port", INTERNET_DEFAULT_HTTP_PORT, iniFile);
 	settings.fDebugMode = GetPrivateProfileInt("general", "debug_mode", 0, iniFile);
 
-	styleFile.append(*config->get()["server"]["skin"].value<std::string>());
+	styleFile.append(*settings->get()["server"]["skin"].value<std::string>());
 	styleFile.append("\\neoncube.style");
 
 	lstrcatA(SKINFOLDER, settings.szSkin);

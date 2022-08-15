@@ -19,15 +19,19 @@
 ##
 ##############################################################################*/
 
-#include <windows.h>
-#include <exdisp.h>		/* Defines of stuff like IWebBrowser2. This is an include file with Visual C 6 and above */
-#include <mshtml.h>		/* Defines of stuff like IHTMLDocument2. This is an include file with Visual C 6 and above */
-#include <crtdbg.h>		/* for _ASSERT() */
+#pragma once
+
+#ifdef _WIN32
+#include <Windows.h>
+#undef MessageBox
+#endif
+
+#include <exdisp.h> /* Defines of stuff like IWebBrowser2. This is an include file with Visual C 6 and above */
+#include <mshtml.h> /* Defines of stuff like IHTMLDocument2. This is an include file with Visual C 6 and above */
+#include <crtdbg.h> /* for _ASSERT() */
 
 //#define DLL_BUILDING
 #include "browser.h"
-
-
 
 #if defined(_MSC_VER)
 #pragma data_seg("Shared")
@@ -42,32 +46,28 @@
  * settings, I add "/section:Shared,rws"
  */
 
-
-
-
-
 /* This is used by DisplayHTMLStr(). It can be global because we never change it. */
 static const SAFEARRAYBOUND ArrayBound = {1, 0};
 
 /* Our IStorage functions that the browser may call */
-HRESULT STDMETHODCALLTYPE Storage_QueryInterface(IStorage FAR* This, REFIID riid, LPVOID FAR* ppvObj);
-HRESULT STDMETHODCALLTYPE Storage_AddRef(IStorage FAR* This);
-HRESULT STDMETHODCALLTYPE Storage_Release(IStorage FAR* This);
-HRESULT STDMETHODCALLTYPE Storage_CreateStream(IStorage FAR* This, const WCHAR *pwcsName, DWORD grfMode, DWORD reserved1, DWORD reserved2, IStream **ppstm);
-HRESULT STDMETHODCALLTYPE Storage_OpenStream(IStorage FAR* This, const WCHAR * pwcsName, void *reserved1, DWORD grfMode, DWORD reserved2, IStream **ppstm);
-HRESULT STDMETHODCALLTYPE Storage_CreateStorage(IStorage FAR* This, const WCHAR *pwcsName, DWORD grfMode, DWORD reserved1, DWORD reserved2, IStorage **ppstg);
-HRESULT STDMETHODCALLTYPE Storage_OpenStorage(IStorage FAR* This, const WCHAR * pwcsName, IStorage * pstgPriority, DWORD grfMode, SNB snbExclude, DWORD reserved, IStorage **ppstg);
-HRESULT STDMETHODCALLTYPE Storage_CopyTo(IStorage FAR* This, DWORD ciidExclude, IID const *rgiidExclude, SNB snbExclude,IStorage *pstgDest);
-HRESULT STDMETHODCALLTYPE Storage_MoveElementTo(IStorage FAR* This, const OLECHAR *pwcsName,IStorage * pstgDest, const OLECHAR *pwcsNewName, DWORD grfFlags);
-HRESULT STDMETHODCALLTYPE Storage_Commit(IStorage FAR* This, DWORD grfCommitFlags);
-HRESULT STDMETHODCALLTYPE Storage_Revert(IStorage FAR* This);
-HRESULT STDMETHODCALLTYPE Storage_EnumElements(IStorage FAR* This, DWORD reserved1, void * reserved2, DWORD reserved3, IEnumSTATSTG ** ppenum);
-HRESULT STDMETHODCALLTYPE Storage_DestroyElement(IStorage FAR* This, const OLECHAR *pwcsName);
-HRESULT STDMETHODCALLTYPE Storage_RenameElement(IStorage FAR* This, const WCHAR *pwcsOldName, const WCHAR *pwcsNewName);
-HRESULT STDMETHODCALLTYPE Storage_SetElementTimes(IStorage FAR* This, const WCHAR *pwcsName, FILETIME const *pctime, FILETIME const *patime, FILETIME const *pmtime);
-HRESULT STDMETHODCALLTYPE Storage_SetClass(IStorage FAR* This, REFCLSID clsid);
-HRESULT STDMETHODCALLTYPE Storage_SetStateBits(IStorage FAR* This, DWORD grfStateBits, DWORD grfMask);
-HRESULT STDMETHODCALLTYPE Storage_Stat(IStorage FAR* This, STATSTG * pstatstg, DWORD grfStatFlag);
+HRESULT STDMETHODCALLTYPE Storage_QueryInterface(IStorage FAR *This, REFIID riid, LPVOID FAR *ppvObj);
+HRESULT STDMETHODCALLTYPE Storage_AddRef(IStorage FAR *This);
+HRESULT STDMETHODCALLTYPE Storage_Release(IStorage FAR *This);
+HRESULT STDMETHODCALLTYPE Storage_CreateStream(IStorage FAR *This, const WCHAR *pwcsName, DWORD grfMode, DWORD reserved1, DWORD reserved2, IStream **ppstm);
+HRESULT STDMETHODCALLTYPE Storage_OpenStream(IStorage FAR *This, const WCHAR *pwcsName, void *reserved1, DWORD grfMode, DWORD reserved2, IStream **ppstm);
+HRESULT STDMETHODCALLTYPE Storage_CreateStorage(IStorage FAR *This, const WCHAR *pwcsName, DWORD grfMode, DWORD reserved1, DWORD reserved2, IStorage **ppstg);
+HRESULT STDMETHODCALLTYPE Storage_OpenStorage(IStorage FAR *This, const WCHAR *pwcsName, IStorage *pstgPriority, DWORD grfMode, SNB snbExclude, DWORD reserved, IStorage **ppstg);
+HRESULT STDMETHODCALLTYPE Storage_CopyTo(IStorage FAR *This, DWORD ciidExclude, IID const *rgiidExclude, SNB snbExclude, IStorage *pstgDest);
+HRESULT STDMETHODCALLTYPE Storage_MoveElementTo(IStorage FAR *This, const OLECHAR *pwcsName, IStorage *pstgDest, const OLECHAR *pwcsNewName, DWORD grfFlags);
+HRESULT STDMETHODCALLTYPE Storage_Commit(IStorage FAR *This, DWORD grfCommitFlags);
+HRESULT STDMETHODCALLTYPE Storage_Revert(IStorage FAR *This);
+HRESULT STDMETHODCALLTYPE Storage_EnumElements(IStorage FAR *This, DWORD reserved1, void *reserved2, DWORD reserved3, IEnumSTATSTG **ppenum);
+HRESULT STDMETHODCALLTYPE Storage_DestroyElement(IStorage FAR *This, const OLECHAR *pwcsName);
+HRESULT STDMETHODCALLTYPE Storage_RenameElement(IStorage FAR *This, const WCHAR *pwcsOldName, const WCHAR *pwcsNewName);
+HRESULT STDMETHODCALLTYPE Storage_SetElementTimes(IStorage FAR *This, const WCHAR *pwcsName, FILETIME const *pctime, FILETIME const *patime, FILETIME const *pmtime);
+HRESULT STDMETHODCALLTYPE Storage_SetClass(IStorage FAR *This, REFCLSID clsid);
+HRESULT STDMETHODCALLTYPE Storage_SetStateBits(IStorage FAR *This, DWORD grfStateBits, DWORD grfMask);
+HRESULT STDMETHODCALLTYPE Storage_Stat(IStorage FAR *This, STATSTG *pstatstg, DWORD grfStatFlag);
 
 /* Our IStorage VTable. This is the array of pointers to the above functions in our C
  * program that someone may call in order to store some data to disk. We must define a
@@ -76,49 +76,45 @@ HRESULT STDMETHODCALLTYPE Storage_Stat(IStorage FAR* This, STATSTG * pstatstg, D
  * We want the browser to use this VTable with our IStorage structure (object).
  */
 static const IStorageVtbl MyIStorageTable = {Storage_QueryInterface,
-Storage_AddRef,
-Storage_Release,
-Storage_CreateStream,
-Storage_OpenStream,
-Storage_CreateStorage,
-Storage_OpenStorage,
-Storage_CopyTo,
-Storage_MoveElementTo,
-Storage_Commit,
-Storage_Revert,
-Storage_EnumElements,
-Storage_DestroyElement,
-Storage_RenameElement,
-Storage_SetElementTimes,
-Storage_SetClass,
-Storage_SetStateBits,
-Storage_Stat};
+											 Storage_AddRef,
+											 Storage_Release,
+											 Storage_CreateStream,
+											 Storage_OpenStream,
+											 Storage_CreateStorage,
+											 Storage_OpenStorage,
+											 Storage_CopyTo,
+											 Storage_MoveElementTo,
+											 Storage_Commit,
+											 Storage_Revert,
+											 Storage_EnumElements,
+											 Storage_DestroyElement,
+											 Storage_RenameElement,
+											 Storage_SetElementTimes,
+											 Storage_SetClass,
+											 Storage_SetStateBits,
+											 Storage_Stat};
 
 /* Our IStorage structure. NOTE: All it contains is a pointer to our IStorageVtbl, so we can easily initialize it
  * here instead of doing that programmably.
  */
-static const IStorage			MyIStorage = { (IStorageVtbl *)&MyIStorageTable };
-
-
-
-
+static const IStorage MyIStorage = {(IStorageVtbl *)&MyIStorageTable};
 
 /* Our IOleInPlaceFrame functions that the browser may call */
-HRESULT STDMETHODCALLTYPE Frame_QueryInterface(IOleInPlaceFrame FAR* This, REFIID riid, LPVOID FAR* ppvObj);
-HRESULT STDMETHODCALLTYPE Frame_AddRef(IOleInPlaceFrame FAR* This);
-HRESULT STDMETHODCALLTYPE Frame_Release(IOleInPlaceFrame FAR* This);
-HRESULT STDMETHODCALLTYPE Frame_GetWindow(IOleInPlaceFrame FAR* This, HWND FAR* lphwnd);
-HRESULT STDMETHODCALLTYPE Frame_ContextSensitiveHelp(IOleInPlaceFrame FAR* This, BOOL fEnterMode);
-HRESULT STDMETHODCALLTYPE Frame_GetBorder(IOleInPlaceFrame FAR* This, LPRECT lprectBorder);
-HRESULT STDMETHODCALLTYPE Frame_RequestBorderSpace(IOleInPlaceFrame FAR* This, LPCBORDERWIDTHS pborderwidths);
-HRESULT STDMETHODCALLTYPE Frame_SetBorderSpace(IOleInPlaceFrame FAR* This, LPCBORDERWIDTHS pborderwidths);
-HRESULT STDMETHODCALLTYPE Frame_SetActiveObject(IOleInPlaceFrame FAR* This, IOleInPlaceActiveObject *pActiveObject, LPCOLESTR pszObjName);
-HRESULT STDMETHODCALLTYPE Frame_InsertMenus(IOleInPlaceFrame FAR* This, HMENU hmenuShared, LPOLEMENUGROUPWIDTHS lpMenuWidths);
-HRESULT STDMETHODCALLTYPE Frame_SetMenu(IOleInPlaceFrame FAR* This, HMENU hmenuShared, HOLEMENU holemenu, HWND hwndActiveObject);
-HRESULT STDMETHODCALLTYPE Frame_RemoveMenus(IOleInPlaceFrame FAR* This, HMENU hmenuShared);
-HRESULT STDMETHODCALLTYPE Frame_SetStatusText(IOleInPlaceFrame FAR* This, LPCOLESTR pszStatusText);
-HRESULT STDMETHODCALLTYPE Frame_EnableModeless(IOleInPlaceFrame FAR* This, BOOL fEnable);
-HRESULT STDMETHODCALLTYPE Frame_TranslateAccelerator(IOleInPlaceFrame FAR* This, LPMSG lpmsg, WORD wID);
+HRESULT STDMETHODCALLTYPE Frame_QueryInterface(IOleInPlaceFrame FAR *This, REFIID riid, LPVOID FAR *ppvObj);
+HRESULT STDMETHODCALLTYPE Frame_AddRef(IOleInPlaceFrame FAR *This);
+HRESULT STDMETHODCALLTYPE Frame_Release(IOleInPlaceFrame FAR *This);
+HRESULT STDMETHODCALLTYPE Frame_GetWindow(IOleInPlaceFrame FAR *This, HWND FAR *lphwnd);
+HRESULT STDMETHODCALLTYPE Frame_ContextSensitiveHelp(IOleInPlaceFrame FAR *This, BOOL fEnterMode);
+HRESULT STDMETHODCALLTYPE Frame_GetBorder(IOleInPlaceFrame FAR *This, LPRECT lprectBorder);
+HRESULT STDMETHODCALLTYPE Frame_RequestBorderSpace(IOleInPlaceFrame FAR *This, LPCBORDERWIDTHS pborderwidths);
+HRESULT STDMETHODCALLTYPE Frame_SetBorderSpace(IOleInPlaceFrame FAR *This, LPCBORDERWIDTHS pborderwidths);
+HRESULT STDMETHODCALLTYPE Frame_SetActiveObject(IOleInPlaceFrame FAR *This, IOleInPlaceActiveObject *pActiveObject, LPCOLESTR pszObjName);
+HRESULT STDMETHODCALLTYPE Frame_InsertMenus(IOleInPlaceFrame FAR *This, HMENU hmenuShared, LPOLEMENUGROUPWIDTHS lpMenuWidths);
+HRESULT STDMETHODCALLTYPE Frame_SetMenu(IOleInPlaceFrame FAR *This, HMENU hmenuShared, HOLEMENU holemenu, HWND hwndActiveObject);
+HRESULT STDMETHODCALLTYPE Frame_RemoveMenus(IOleInPlaceFrame FAR *This, HMENU hmenuShared);
+HRESULT STDMETHODCALLTYPE Frame_SetStatusText(IOleInPlaceFrame FAR *This, LPCOLESTR pszStatusText);
+HRESULT STDMETHODCALLTYPE Frame_EnableModeless(IOleInPlaceFrame FAR *This, BOOL fEnable);
+HRESULT STDMETHODCALLTYPE Frame_TranslateAccelerator(IOleInPlaceFrame FAR *This, LPMSG lpmsg, WORD wID);
 
 /* Our IOleInPlaceFrame VTable. This is the array of pointers to the above functions in our C
  * program that the browser may call in order to interact with our frame window that contains
@@ -128,20 +124,20 @@ HRESULT STDMETHODCALLTYPE Frame_TranslateAccelerator(IOleInPlaceFrame FAR* This,
  * IOleInPlaceFrame structure.
  */
 static const IOleInPlaceFrameVtbl MyIOleInPlaceFrameTable = {Frame_QueryInterface,
-Frame_AddRef,
-Frame_Release,
-Frame_GetWindow,
-Frame_ContextSensitiveHelp,
-Frame_GetBorder,
-Frame_RequestBorderSpace,
-Frame_SetBorderSpace,
-Frame_SetActiveObject,
-Frame_InsertMenus,
-Frame_SetMenu,
-Frame_RemoveMenus,
-Frame_SetStatusText,
-Frame_EnableModeless,
-Frame_TranslateAccelerator};
+															 Frame_AddRef,
+															 Frame_Release,
+															 Frame_GetWindow,
+															 Frame_ContextSensitiveHelp,
+															 Frame_GetBorder,
+															 Frame_RequestBorderSpace,
+															 Frame_SetBorderSpace,
+															 Frame_SetActiveObject,
+															 Frame_InsertMenus,
+															 Frame_SetMenu,
+															 Frame_RemoveMenus,
+															 Frame_SetStatusText,
+															 Frame_EnableModeless,
+															 Frame_TranslateAccelerator};
 
 /* We need to pass an IOleInPlaceFrame struct to the browser object. And one of our IOleInPlaceFrame
  * functions (Frame_GetWindow) is going to need to access our window handle. So let's create our own
@@ -154,8 +150,9 @@ Frame_TranslateAccelerator};
  * GlobalAlloc, and then stuff the appropriate HWND in it then, and also stuff a pointer to
  * MyIOleInPlaceFrameTable in it. But let's just define it here.
  */
-typedef struct _IOleInPlaceFrameEx {
-	IOleInPlaceFrame	frame;		// The IOleInPlaceFrame must be first!
+typedef struct _IOleInPlaceFrameEx
+{
+	IOleInPlaceFrame frame; // The IOleInPlaceFrame must be first!
 
 	/* //////////////////////////////////////////////////
 	// Here you add any variables that you need
@@ -170,24 +167,19 @@ typedef struct _IOleInPlaceFrameEx {
 	// IOleInPlaceFrame function Frame_GetWindow() needs
 	// to access.
 	////////////////////////////////////////////////// */
-	HWND				window;
+	HWND window;
 } IOleInPlaceFrameEx;
 
-
-
-
-
-
 /* Our IOleClientSite functions that the browser may call */
-HRESULT STDMETHODCALLTYPE Site_QueryInterface(IOleClientSite FAR* This, REFIID riid, void ** ppvObject);
-HRESULT STDMETHODCALLTYPE Site_AddRef(IOleClientSite FAR* This);
-HRESULT STDMETHODCALLTYPE Site_Release(IOleClientSite FAR* This);
-HRESULT STDMETHODCALLTYPE Site_SaveObject(IOleClientSite FAR* This);
-HRESULT STDMETHODCALLTYPE Site_GetMoniker(IOleClientSite FAR* This, DWORD dwAssign, DWORD dwWhichMoniker, IMoniker ** ppmk);
-HRESULT STDMETHODCALLTYPE Site_GetContainer(IOleClientSite FAR* This, LPOLECONTAINER FAR* ppContainer);
-HRESULT STDMETHODCALLTYPE Site_ShowObject(IOleClientSite FAR* This);
-HRESULT STDMETHODCALLTYPE Site_OnShowWindow(IOleClientSite FAR* This, BOOL fShow);
-HRESULT STDMETHODCALLTYPE Site_RequestNewObjectLayout(IOleClientSite FAR* This);
+HRESULT STDMETHODCALLTYPE Site_QueryInterface(IOleClientSite FAR *This, REFIID riid, void **ppvObject);
+HRESULT STDMETHODCALLTYPE Site_AddRef(IOleClientSite FAR *This);
+HRESULT STDMETHODCALLTYPE Site_Release(IOleClientSite FAR *This);
+HRESULT STDMETHODCALLTYPE Site_SaveObject(IOleClientSite FAR *This);
+HRESULT STDMETHODCALLTYPE Site_GetMoniker(IOleClientSite FAR *This, DWORD dwAssign, DWORD dwWhichMoniker, IMoniker **ppmk);
+HRESULT STDMETHODCALLTYPE Site_GetContainer(IOleClientSite FAR *This, LPOLECONTAINER FAR *ppContainer);
+HRESULT STDMETHODCALLTYPE Site_ShowObject(IOleClientSite FAR *This);
+HRESULT STDMETHODCALLTYPE Site_OnShowWindow(IOleClientSite FAR *This, BOOL fShow);
+HRESULT STDMETHODCALLTYPE Site_RequestNewObjectLayout(IOleClientSite FAR *This);
 
 /* Our IOleClientSite VTable. This is the array of pointers to the above functions in our C
  * program that the browser may call in order to interact with our frame window that contains
@@ -197,33 +189,28 @@ HRESULT STDMETHODCALLTYPE Site_RequestNewObjectLayout(IOleClientSite FAR* This);
  * IOleClientSite structure.
  */
 static const IOleClientSiteVtbl MyIOleClientSiteTable = {Site_QueryInterface,
-Site_AddRef,
-Site_Release,
-Site_SaveObject,
-Site_GetMoniker,
-Site_GetContainer,
-Site_ShowObject,
-Site_OnShowWindow,
-Site_RequestNewObjectLayout};
-
-
-
-
-
+														 Site_AddRef,
+														 Site_Release,
+														 Site_SaveObject,
+														 Site_GetMoniker,
+														 Site_GetContainer,
+														 Site_ShowObject,
+														 Site_OnShowWindow,
+														 Site_RequestNewObjectLayout};
 
 /* Our IOleInPlaceSite functions that the browser may call */
-HRESULT STDMETHODCALLTYPE Site_GetWindow(IOleInPlaceSite FAR* This, HWND FAR* lphwnd);
-HRESULT STDMETHODCALLTYPE Site_ContextSensitiveHelp(IOleInPlaceSite FAR* This, BOOL fEnterMode);
-HRESULT STDMETHODCALLTYPE Site_CanInPlaceActivate(IOleInPlaceSite FAR* This);
-HRESULT STDMETHODCALLTYPE Site_OnInPlaceActivate(IOleInPlaceSite FAR* This);
-HRESULT STDMETHODCALLTYPE Site_OnUIActivate(IOleInPlaceSite FAR* This);
-HRESULT STDMETHODCALLTYPE Site_GetWindowContext(IOleInPlaceSite FAR* This, LPOLEINPLACEFRAME FAR* lplpFrame,LPOLEINPLACEUIWINDOW FAR* lplpDoc,LPRECT lprcPosRect,LPRECT lprcClipRect,LPOLEINPLACEFRAMEINFO lpFrameInfo);
-HRESULT STDMETHODCALLTYPE Site_Scroll(IOleInPlaceSite FAR* This, SIZE scrollExtent);
-HRESULT STDMETHODCALLTYPE Site_OnUIDeactivate(IOleInPlaceSite FAR* This, BOOL fUndoable);
-HRESULT STDMETHODCALLTYPE Site_OnInPlaceDeactivate(IOleInPlaceSite FAR* This);
-HRESULT STDMETHODCALLTYPE Site_DiscardUndoState(IOleInPlaceSite FAR* This);
-HRESULT STDMETHODCALLTYPE Site_DeactivateAndUndo(IOleInPlaceSite FAR* This);
-HRESULT STDMETHODCALLTYPE Site_OnPosRectChange(IOleInPlaceSite FAR* This, LPCRECT lprcPosRect);
+HRESULT STDMETHODCALLTYPE Site_GetWindow(IOleInPlaceSite FAR *This, HWND FAR *lphwnd);
+HRESULT STDMETHODCALLTYPE Site_ContextSensitiveHelp(IOleInPlaceSite FAR *This, BOOL fEnterMode);
+HRESULT STDMETHODCALLTYPE Site_CanInPlaceActivate(IOleInPlaceSite FAR *This);
+HRESULT STDMETHODCALLTYPE Site_OnInPlaceActivate(IOleInPlaceSite FAR *This);
+HRESULT STDMETHODCALLTYPE Site_OnUIActivate(IOleInPlaceSite FAR *This);
+HRESULT STDMETHODCALLTYPE Site_GetWindowContext(IOleInPlaceSite FAR *This, LPOLEINPLACEFRAME FAR *lplpFrame, LPOLEINPLACEUIWINDOW FAR *lplpDoc, LPRECT lprcPosRect, LPRECT lprcClipRect, LPOLEINPLACEFRAMEINFO lpFrameInfo);
+HRESULT STDMETHODCALLTYPE Site_Scroll(IOleInPlaceSite FAR *This, SIZE scrollExtent);
+HRESULT STDMETHODCALLTYPE Site_OnUIDeactivate(IOleInPlaceSite FAR *This, BOOL fUndoable);
+HRESULT STDMETHODCALLTYPE Site_OnInPlaceDeactivate(IOleInPlaceSite FAR *This);
+HRESULT STDMETHODCALLTYPE Site_DiscardUndoState(IOleInPlaceSite FAR *This);
+HRESULT STDMETHODCALLTYPE Site_DeactivateAndUndo(IOleInPlaceSite FAR *This);
+HRESULT STDMETHODCALLTYPE Site_OnPosRectChange(IOleInPlaceSite FAR *This, LPCRECT lprcPosRect);
 
 /* Our IOleInPlaceSite VTable. This is the array of pointers to the above functions in our C
  * program that the browser may call in order to interact with our frame window that contains
@@ -232,36 +219,36 @@ HRESULT STDMETHODCALLTYPE Site_OnPosRectChange(IOleInPlaceSite FAR* This, LPCREC
  * in their respective 'slots' in this table. We want the browser to use this VTable with our
  * IOleInPlaceSite structure.
  */
-static const IOleInPlaceSiteVtbl MyIOleInPlaceSiteTable =  {Site_QueryInterface,	/* This gives a compiler warning because we're using
-															* the same function as the MyIOleClientSiteTable uses.
-															* And the first arg to that Site_QueryInterface() is
-															* a pointer to a IOleClientSite. What we really should
-															* have here is a separate function with its first arg
-															* as a pointer to a IOleInPlaceSite (even though what
-															* will really get passed to it is a _IOleClientSiteEx *).
-															* But it's easier to use one function for QueryInterface()
-															* in order to support "inheritance". ie, Sometimes, the
-															* browser may call your IOleClientSite's QueryInterface
-															* in order to get a pointer to your IOleInPlaceSite, or
-															* vice versa. This is because these two structs will be
-															* passed to the browser inside of a single struct. And
-															* that makes them "interconnected" as far as
-															* QueryInterface is concerned.
-															*/
-Site_AddRef,				/* Ditto as above. */
-Site_Release,				/* Ditto as above. */
-Site_GetWindow,
-Site_ContextSensitiveHelp,
-Site_CanInPlaceActivate,
-Site_OnInPlaceActivate,
-Site_OnUIActivate,
-Site_GetWindowContext,
-Site_Scroll,
-Site_OnUIDeactivate,
-Site_OnInPlaceDeactivate,
-Site_DiscardUndoState,
-Site_DeactivateAndUndo,
-Site_OnPosRectChange};
+static const IOleInPlaceSiteVtbl MyIOleInPlaceSiteTable = {Site_QueryInterface, /* This gives a compiler warning because we're using
+																				 * the same function as the MyIOleClientSiteTable uses.
+																				 * And the first arg to that Site_QueryInterface() is
+																				 * a pointer to a IOleClientSite. What we really should
+																				 * have here is a separate function with its first arg
+																				 * as a pointer to a IOleInPlaceSite (even though what
+																				 * will really get passed to it is a _IOleClientSiteEx *).
+																				 * But it's easier to use one function for QueryInterface()
+																				 * in order to support "inheritance". ie, Sometimes, the
+																				 * browser may call your IOleClientSite's QueryInterface
+																				 * in order to get a pointer to your IOleInPlaceSite, or
+																				 * vice versa. This is because these two structs will be
+																				 * passed to the browser inside of a single struct. And
+																				 * that makes them "interconnected" as far as
+																				 * QueryInterface is concerned.
+																				 */
+														   Site_AddRef,			/* Ditto as above. */
+														   Site_Release,		/* Ditto as above. */
+														   Site_GetWindow,
+														   Site_ContextSensitiveHelp,
+														   Site_CanInPlaceActivate,
+														   Site_OnInPlaceActivate,
+														   Site_OnUIActivate,
+														   Site_GetWindowContext,
+														   Site_Scroll,
+														   Site_OnUIDeactivate,
+														   Site_OnInPlaceDeactivate,
+														   Site_DiscardUndoState,
+														   Site_DeactivateAndUndo,
+														   Site_OnPosRectChange};
 
 /* The structure we need to pass to the browser object must contain an IOleClientSite structure. The
  * IOleClientSite struct *must* be first. Our IOleClientSite's QueryInterface() may also be asked to
@@ -279,8 +266,9 @@ Site_OnPosRectChange};
  * declare this struct globally. We'll allocate it later using GlobalAlloc, and then store the
  * appropriate IOleInPlaceFrame struct pointer then.
  */
-typedef struct __IOleInPlaceSiteEx {
-	IOleInPlaceSite		inplace;		/* My IOleInPlaceSite object. Must be first. */
+typedef struct __IOleInPlaceSiteEx
+{
+	IOleInPlaceSite inplace; /* My IOleInPlaceSite object. Must be first. */
 
 	/* //////////////////////////////////////////////////
 	// Here you add any variables that you need
@@ -294,12 +282,13 @@ typedef struct __IOleInPlaceSiteEx {
 	// So here is where I added my extra pointer to my
 	// IOleInPlaceFrame struct.
 	////////////////////////////////////////////////// */
-	IOleInPlaceFrameEx	*frame;
+	IOleInPlaceFrameEx *frame;
 } _IOleInPlaceSiteEx;
 
-typedef struct __IOleClientSiteEx {
-	IOleClientSite		client;			/* My IOleClientSite object. Must be first. */
-	_IOleInPlaceSiteEx	inplace;		/* My IOleInPlaceSite object. */
+typedef struct __IOleClientSiteEx
+{
+	IOleClientSite client;		/* My IOleClientSite object. Must be first. */
+	_IOleInPlaceSiteEx inplace; /* My IOleInPlaceSite object. */
 
 	/* //////////////////////////////////////////////////
 	// Here you add any variables that you need
@@ -308,18 +297,9 @@ typedef struct __IOleClientSiteEx {
 
 } _IOleClientSiteEx;
 
-
-
-
-
 #if defined(_MSC_VER)
 #pragma data_seg()
 #endif
-
-
-
-
-
 
 // This is a simple C example. There are lots more things you can control about the browser object, but
 // we don't do it in this example. _Many_ of the functions we provide below for the browser to call, will
@@ -331,113 +311,103 @@ typedef struct __IOleClientSiteEx {
 // assembly code that causes a debugger breakpoint and tells the browser object that we don't support
 // the functionality. That way, if you try to do more things with the browser object, and it starts
 // calling these "dummy functions", you'll know which ones you should add more meaningful code to.
-#define NOTIMPLEMENTED _ASSERT(0); return(E_NOTIMPL)
-
-
-
-
+#define NOTIMPLEMENTED \
+	_ASSERT(0);        \
+	return (E_NOTIMPL)
 
 ////////////////////////////////////// My IStorage functions  /////////////////////////////////////////
 // NOTE: The browser object doesn't use the IStorage functions, so most of these are us just returning
 // E_NOTIMPL so that anyone who *does* call these functions knows nothing is being done here.
 
-HRESULT STDMETHODCALLTYPE Storage_QueryInterface(IStorage FAR* This, REFIID riid, LPVOID FAR* ppvObj)
+HRESULT STDMETHODCALLTYPE Storage_QueryInterface(IStorage FAR *This, REFIID riid, LPVOID FAR *ppvObj)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Storage_AddRef(IStorage FAR* This)
+HRESULT STDMETHODCALLTYPE Storage_AddRef(IStorage FAR *This)
 {
-	return(1);
+	return (1);
 }
 
-HRESULT STDMETHODCALLTYPE Storage_Release(IStorage FAR* This)
+HRESULT STDMETHODCALLTYPE Storage_Release(IStorage FAR *This)
 {
-	return(1);
+	return (1);
 }
 
-HRESULT STDMETHODCALLTYPE Storage_CreateStream(IStorage FAR* This, const WCHAR *pwcsName, DWORD grfMode, DWORD reserved1, DWORD reserved2, IStream **ppstm)
-{
-	NOTIMPLEMENTED;
-}
-
-HRESULT STDMETHODCALLTYPE Storage_OpenStream(IStorage FAR* This, const WCHAR * pwcsName, void *reserved1, DWORD grfMode, DWORD reserved2, IStream **ppstm)
+HRESULT STDMETHODCALLTYPE Storage_CreateStream(IStorage FAR *This, const WCHAR *pwcsName, DWORD grfMode, DWORD reserved1, DWORD reserved2, IStream **ppstm)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Storage_CreateStorage(IStorage FAR* This, const WCHAR *pwcsName, DWORD grfMode, DWORD reserved1, DWORD reserved2, IStorage **ppstg)
+HRESULT STDMETHODCALLTYPE Storage_OpenStream(IStorage FAR *This, const WCHAR *pwcsName, void *reserved1, DWORD grfMode, DWORD reserved2, IStream **ppstm)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Storage_OpenStorage(IStorage FAR* This, const WCHAR * pwcsName, IStorage * pstgPriority, DWORD grfMode, SNB snbExclude, DWORD reserved, IStorage **ppstg)
+HRESULT STDMETHODCALLTYPE Storage_CreateStorage(IStorage FAR *This, const WCHAR *pwcsName, DWORD grfMode, DWORD reserved1, DWORD reserved2, IStorage **ppstg)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Storage_CopyTo(IStorage FAR* This, DWORD ciidExclude, IID const *rgiidExclude, SNB snbExclude,IStorage *pstgDest)
+HRESULT STDMETHODCALLTYPE Storage_OpenStorage(IStorage FAR *This, const WCHAR *pwcsName, IStorage *pstgPriority, DWORD grfMode, SNB snbExclude, DWORD reserved, IStorage **ppstg)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Storage_MoveElementTo(IStorage FAR* This, const OLECHAR *pwcsName,IStorage * pstgDest, const OLECHAR *pwcsNewName, DWORD grfFlags)
+HRESULT STDMETHODCALLTYPE Storage_CopyTo(IStorage FAR *This, DWORD ciidExclude, IID const *rgiidExclude, SNB snbExclude, IStorage *pstgDest)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Storage_Commit(IStorage FAR* This, DWORD grfCommitFlags)
+HRESULT STDMETHODCALLTYPE Storage_MoveElementTo(IStorage FAR *This, const OLECHAR *pwcsName, IStorage *pstgDest, const OLECHAR *pwcsNewName, DWORD grfFlags)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Storage_Revert(IStorage FAR* This)
+HRESULT STDMETHODCALLTYPE Storage_Commit(IStorage FAR *This, DWORD grfCommitFlags)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Storage_EnumElements(IStorage FAR* This, DWORD reserved1, void * reserved2, DWORD reserved3, IEnumSTATSTG ** ppenum)
+HRESULT STDMETHODCALLTYPE Storage_Revert(IStorage FAR *This)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Storage_DestroyElement(IStorage FAR* This, const OLECHAR *pwcsName)
+HRESULT STDMETHODCALLTYPE Storage_EnumElements(IStorage FAR *This, DWORD reserved1, void *reserved2, DWORD reserved3, IEnumSTATSTG **ppenum)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Storage_RenameElement(IStorage FAR* This, const WCHAR *pwcsOldName, const WCHAR *pwcsNewName)
+HRESULT STDMETHODCALLTYPE Storage_DestroyElement(IStorage FAR *This, const OLECHAR *pwcsName)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Storage_SetElementTimes(IStorage FAR* This, const WCHAR *pwcsName, FILETIME const *pctime, FILETIME const *patime, FILETIME const *pmtime)
+HRESULT STDMETHODCALLTYPE Storage_RenameElement(IStorage FAR *This, const WCHAR *pwcsOldName, const WCHAR *pwcsNewName)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Storage_SetClass(IStorage FAR* This, REFCLSID clsid)
-{
-	return(S_OK);
-}
-
-HRESULT STDMETHODCALLTYPE Storage_SetStateBits(IStorage FAR* This, DWORD grfStateBits, DWORD grfMask)
+HRESULT STDMETHODCALLTYPE Storage_SetElementTimes(IStorage FAR *This, const WCHAR *pwcsName, FILETIME const *pctime, FILETIME const *patime, FILETIME const *pmtime)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Storage_Stat(IStorage FAR* This, STATSTG * pstatstg, DWORD grfStatFlag)
+HRESULT STDMETHODCALLTYPE Storage_SetClass(IStorage FAR *This, REFCLSID clsid)
+{
+	return (S_OK);
+}
+
+HRESULT STDMETHODCALLTYPE Storage_SetStateBits(IStorage FAR *This, DWORD grfStateBits, DWORD grfMask)
 {
 	NOTIMPLEMENTED;
 }
 
-
-
-
-
-
-
-
+HRESULT STDMETHODCALLTYPE Storage_Stat(IStorage FAR *This, STATSTG *pstatstg, DWORD grfStatFlag)
+{
+	NOTIMPLEMENTED;
+}
 
 ///////////////////////////////// My IOleClientSite/IOleInPlaceSite functions  /////////////////////////////////
 
@@ -459,7 +429,7 @@ HRESULT STDMETHODCALLTYPE Storage_Stat(IStorage FAR* This, STATSTG * pstatstg, D
  * the requested struct.
  */
 
-HRESULT STDMETHODCALLTYPE Site_QueryInterface(IOleClientSite FAR* This, REFIID riid, void ** ppvObject)
+HRESULT STDMETHODCALLTYPE Site_QueryInterface(IOleClientSite FAR *This, REFIID riid, void **ppvObject)
 {
 	// It just so happens that the first arg passed to us is our _IOleClientSiteEx struct we allocated
 	// and passed to DoVerb() and OleCreate(). Nevermind that 'This' is declared is an IOleClientSite *.
@@ -509,56 +479,56 @@ HRESULT STDMETHODCALLTYPE Site_QueryInterface(IOleClientSite FAR* This, REFIID r
 	else
 	{
 		*ppvObject = 0;
-		return(E_NOINTERFACE);
+		return (E_NOINTERFACE);
 	}
 
-	return(S_OK);
+	return (S_OK);
 }
 
-HRESULT STDMETHODCALLTYPE Site_AddRef(IOleClientSite FAR* This)
+HRESULT STDMETHODCALLTYPE Site_AddRef(IOleClientSite FAR *This)
 {
-	return(1);
+	return (1);
 }
 
-HRESULT STDMETHODCALLTYPE Site_Release(IOleClientSite FAR* This)
+HRESULT STDMETHODCALLTYPE Site_Release(IOleClientSite FAR *This)
 {
-	return(1);
+	return (1);
 }
 
-HRESULT STDMETHODCALLTYPE Site_SaveObject(IOleClientSite FAR* This)
-{
-	NOTIMPLEMENTED;
-}
-
-HRESULT STDMETHODCALLTYPE Site_GetMoniker(IOleClientSite FAR* This, DWORD dwAssign, DWORD dwWhichMoniker, IMoniker ** ppmk)
+HRESULT STDMETHODCALLTYPE Site_SaveObject(IOleClientSite FAR *This)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Site_GetContainer(IOleClientSite FAR* This, LPOLECONTAINER FAR* ppContainer)
+HRESULT STDMETHODCALLTYPE Site_GetMoniker(IOleClientSite FAR *This, DWORD dwAssign, DWORD dwWhichMoniker, IMoniker **ppmk)
+{
+	NOTIMPLEMENTED;
+}
+
+HRESULT STDMETHODCALLTYPE Site_GetContainer(IOleClientSite FAR *This, LPOLECONTAINER FAR *ppContainer)
 {
 	// Tell the browser that we are a simple object and don't support a container
 	*ppContainer = 0;
 
-	return(E_NOINTERFACE);
+	return (E_NOINTERFACE);
 }
 
-HRESULT STDMETHODCALLTYPE Site_ShowObject(IOleClientSite FAR* This)
+HRESULT STDMETHODCALLTYPE Site_ShowObject(IOleClientSite FAR *This)
 {
-	return(NOERROR);
+	return (NOERROR);
 }
 
-HRESULT STDMETHODCALLTYPE Site_OnShowWindow(IOleClientSite FAR* This, BOOL fShow)
-{
-	NOTIMPLEMENTED;
-}
-
-HRESULT STDMETHODCALLTYPE Site_RequestNewObjectLayout(IOleClientSite FAR* This)
+HRESULT STDMETHODCALLTYPE Site_OnShowWindow(IOleClientSite FAR *This, BOOL fShow)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Site_GetWindow(IOleInPlaceSite FAR* This, HWND FAR* lphwnd)
+HRESULT STDMETHODCALLTYPE Site_RequestNewObjectLayout(IOleClientSite FAR *This)
+{
+	NOTIMPLEMENTED;
+}
+
+HRESULT STDMETHODCALLTYPE Site_GetWindow(IOleInPlaceSite FAR *This, HWND FAR *lphwnd)
 {
 	// Return the HWND of the window that contains this browser object. We stored that
 	// HWND in our _IOleInPlaceSiteEx struct. Nevermind that the function declaration for
@@ -569,34 +539,34 @@ HRESULT STDMETHODCALLTYPE Site_GetWindow(IOleInPlaceSite FAR* This, HWND FAR* lp
 	// returned a pointer to our _IOleClientSiteEx. The browser doesn't know this. But
 	// we do. That's what we're really being passed, so we can recast it and use it as
 	// so here.
-	*lphwnd = ((_IOleInPlaceSiteEx FAR*)This)->frame->window;
+	*lphwnd = ((_IOleInPlaceSiteEx FAR *)This)->frame->window;
 
-	return(S_OK);
+	return (S_OK);
 }
 
-HRESULT STDMETHODCALLTYPE Site_ContextSensitiveHelp(IOleInPlaceSite FAR* This, BOOL fEnterMode)
+HRESULT STDMETHODCALLTYPE Site_ContextSensitiveHelp(IOleInPlaceSite FAR *This, BOOL fEnterMode)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Site_CanInPlaceActivate(IOleInPlaceSite FAR* This)
+HRESULT STDMETHODCALLTYPE Site_CanInPlaceActivate(IOleInPlaceSite FAR *This)
 {
 	// Tell the browser we can in place activate
-	return(S_OK);
+	return (S_OK);
 }
 
-HRESULT STDMETHODCALLTYPE Site_OnInPlaceActivate(IOleInPlaceSite FAR* This)
+HRESULT STDMETHODCALLTYPE Site_OnInPlaceActivate(IOleInPlaceSite FAR *This)
 {
 	// Tell the browser we did it ok
-	return(S_OK);
+	return (S_OK);
 }
 
-HRESULT STDMETHODCALLTYPE Site_OnUIActivate(IOleInPlaceSite FAR* This)
+HRESULT STDMETHODCALLTYPE Site_OnUIActivate(IOleInPlaceSite FAR *This)
 {
-	return(S_OK);
+	return (S_OK);
 }
 
-HRESULT STDMETHODCALLTYPE Site_GetWindowContext(IOleInPlaceSite FAR* This, LPOLEINPLACEFRAME FAR* lplpFrame, LPOLEINPLACEUIWINDOW FAR* lplpDoc, LPRECT lprcPosRect, LPRECT lprcClipRect, LPOLEINPLACEFRAMEINFO lpFrameInfo)
+HRESULT STDMETHODCALLTYPE Site_GetWindowContext(IOleInPlaceSite FAR *This, LPOLEINPLACEFRAME FAR *lplpFrame, LPOLEINPLACEUIWINDOW FAR *lplpDoc, LPRECT lprcPosRect, LPRECT lprcClipRect, LPOLEINPLACEFRAMEINFO lpFrameInfo)
 {
 	// Give the browser the pointer to our IOleInPlaceFrame struct. We stored that pointer
 	// in our _IOleInPlaceSiteEx struct. Nevermind that the function declaration for
@@ -613,14 +583,14 @@ HRESULT STDMETHODCALLTYPE Site_GetWindowContext(IOleInPlaceSite FAR* This, LPOLE
 	// IOleInPlaceSiteEx starts with an embedded IOleInPlaceSite, so the browser is
 	// cool with it. And we want the browser to pass a pointer to this IOleInPlaceSiteEx
 	// wherever it would pass a IOleInPlaceSite struct to our IOleInPlaceSite functions.
-	*lplpFrame = (LPOLEINPLACEFRAME)((_IOleInPlaceSiteEx FAR*)This)->frame;
+	*lplpFrame = (LPOLEINPLACEFRAME)((_IOleInPlaceSiteEx FAR *)This)->frame;
 
 	// We have no OLEINPLACEUIWINDOW
 	*lplpDoc = 0;
 
 	// Fill in some other info for the browser
 	lpFrameInfo->fMDIApp = FALSE;
-	lpFrameInfo->hwndFrame = ((IOleInPlaceFrameEx FAR*)*lplpFrame)->window;
+	lpFrameInfo->hwndFrame = ((IOleInPlaceFrameEx FAR *)*lplpFrame)->window;
 	lpFrameInfo->haccel = 0;
 	lpFrameInfo->cAccelEntries = 0;
 
@@ -628,63 +598,57 @@ HRESULT STDMETHODCALLTYPE Site_GetWindowContext(IOleInPlaceSite FAR* This, LPOLE
 	GetClientRect(lpFrameInfo->hwndFrame, lprcPosRect);
 	GetClientRect(lpFrameInfo->hwndFrame, lprcClipRect);
 
-	return(S_OK);
+	return (S_OK);
 }
 
-HRESULT STDMETHODCALLTYPE Site_Scroll(IOleInPlaceSite FAR* This, SIZE scrollExtent)
+HRESULT STDMETHODCALLTYPE Site_Scroll(IOleInPlaceSite FAR *This, SIZE scrollExtent)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Site_OnUIDeactivate(IOleInPlaceSite FAR* This, BOOL fUndoable)
+HRESULT STDMETHODCALLTYPE Site_OnUIDeactivate(IOleInPlaceSite FAR *This, BOOL fUndoable)
 {
-	return(S_OK);
+	return (S_OK);
 }
 
-HRESULT STDMETHODCALLTYPE Site_OnInPlaceDeactivate(IOleInPlaceSite FAR* This)
+HRESULT STDMETHODCALLTYPE Site_OnInPlaceDeactivate(IOleInPlaceSite FAR *This)
 {
-	return(S_OK);
+	return (S_OK);
 }
 
-HRESULT STDMETHODCALLTYPE Site_DiscardUndoState(IOleInPlaceSite FAR* This)
-{
-	NOTIMPLEMENTED;
-}
-
-HRESULT STDMETHODCALLTYPE Site_DeactivateAndUndo(IOleInPlaceSite FAR* This)
+HRESULT STDMETHODCALLTYPE Site_DiscardUndoState(IOleInPlaceSite FAR *This)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Site_OnPosRectChange(IOleInPlaceSite FAR* This, LPCRECT lprcPosRect)
+HRESULT STDMETHODCALLTYPE Site_DeactivateAndUndo(IOleInPlaceSite FAR *This)
 {
-	return(S_OK);
+	NOTIMPLEMENTED;
 }
 
-
-
-
-
-
+HRESULT STDMETHODCALLTYPE Site_OnPosRectChange(IOleInPlaceSite FAR *This, LPCRECT lprcPosRect)
+{
+	return (S_OK);
+}
 
 ////////////////////////////////////// My IOleInPlaceFrame functions  /////////////////////////////////////////
 
-HRESULT STDMETHODCALLTYPE Frame_QueryInterface(IOleInPlaceFrame FAR* This, REFIID riid, LPVOID FAR* ppvObj)
+HRESULT STDMETHODCALLTYPE Frame_QueryInterface(IOleInPlaceFrame FAR *This, REFIID riid, LPVOID FAR *ppvObj)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Frame_AddRef(IOleInPlaceFrame FAR* This)
+HRESULT STDMETHODCALLTYPE Frame_AddRef(IOleInPlaceFrame FAR *This)
 {
-	return(1);
+	return (1);
 }
 
-HRESULT STDMETHODCALLTYPE Frame_Release(IOleInPlaceFrame FAR* This)
+HRESULT STDMETHODCALLTYPE Frame_Release(IOleInPlaceFrame FAR *This)
 {
-	return(1);
+	return (1);
 }
 
-HRESULT STDMETHODCALLTYPE Frame_GetWindow(IOleInPlaceFrame FAR* This, HWND FAR* lphwnd)
+HRESULT STDMETHODCALLTYPE Frame_GetWindow(IOleInPlaceFrame FAR *This, HWND FAR *lphwnd)
 {
 	// Give the browser the HWND to our window that contains the browser object. We
 	// stored that HWND in our IOleInPlaceFrame struct. Nevermind that the function
@@ -694,71 +658,64 @@ HRESULT STDMETHODCALLTYPE Frame_GetWindow(IOleInPlaceFrame FAR* This, HWND FAR* 
 	// Site_GetWindowContext() returned that IOleInPlaceFrameEx. So that's what the
 	// browser is passing us. It doesn't know that. But we do. So we can recast it and
 	// use it as so here.
-	*lphwnd = ((IOleInPlaceFrameEx FAR*)This)->window;
-	return(S_OK);
+	*lphwnd = ((IOleInPlaceFrameEx FAR *)This)->window;
+	return (S_OK);
 }
 
-HRESULT STDMETHODCALLTYPE Frame_ContextSensitiveHelp(IOleInPlaceFrame FAR* This, BOOL fEnterMode)
+HRESULT STDMETHODCALLTYPE Frame_ContextSensitiveHelp(IOleInPlaceFrame FAR *This, BOOL fEnterMode)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Frame_GetBorder(IOleInPlaceFrame FAR* This, LPRECT lprectBorder)
+HRESULT STDMETHODCALLTYPE Frame_GetBorder(IOleInPlaceFrame FAR *This, LPRECT lprectBorder)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Frame_RequestBorderSpace(IOleInPlaceFrame FAR* This, LPCBORDERWIDTHS pborderwidths)
+HRESULT STDMETHODCALLTYPE Frame_RequestBorderSpace(IOleInPlaceFrame FAR *This, LPCBORDERWIDTHS pborderwidths)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Frame_SetBorderSpace(IOleInPlaceFrame FAR* This, LPCBORDERWIDTHS pborderwidths)
+HRESULT STDMETHODCALLTYPE Frame_SetBorderSpace(IOleInPlaceFrame FAR *This, LPCBORDERWIDTHS pborderwidths)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Frame_SetActiveObject(IOleInPlaceFrame FAR* This, IOleInPlaceActiveObject *pActiveObject, LPCOLESTR pszObjName)
+HRESULT STDMETHODCALLTYPE Frame_SetActiveObject(IOleInPlaceFrame FAR *This, IOleInPlaceActiveObject *pActiveObject, LPCOLESTR pszObjName)
 {
-	return(S_OK);
+	return (S_OK);
 }
 
-HRESULT STDMETHODCALLTYPE Frame_InsertMenus(IOleInPlaceFrame FAR* This, HMENU hmenuShared, LPOLEMENUGROUPWIDTHS lpMenuWidths)
-{
-	NOTIMPLEMENTED;
-}
-
-HRESULT STDMETHODCALLTYPE Frame_SetMenu(IOleInPlaceFrame FAR* This, HMENU hmenuShared, HOLEMENU holemenu, HWND hwndActiveObject)
-{
-	return(S_OK);
-}
-
-HRESULT STDMETHODCALLTYPE Frame_RemoveMenus(IOleInPlaceFrame FAR* This, HMENU hmenuShared)
+HRESULT STDMETHODCALLTYPE Frame_InsertMenus(IOleInPlaceFrame FAR *This, HMENU hmenuShared, LPOLEMENUGROUPWIDTHS lpMenuWidths)
 {
 	NOTIMPLEMENTED;
 }
 
-HRESULT STDMETHODCALLTYPE Frame_SetStatusText(IOleInPlaceFrame FAR* This, LPCOLESTR pszStatusText)
+HRESULT STDMETHODCALLTYPE Frame_SetMenu(IOleInPlaceFrame FAR *This, HMENU hmenuShared, HOLEMENU holemenu, HWND hwndActiveObject)
 {
-	return(S_OK);
+	return (S_OK);
 }
 
-HRESULT STDMETHODCALLTYPE Frame_EnableModeless(IOleInPlaceFrame FAR* This, BOOL fEnable)
-{
-	return(S_OK);
-}
-
-HRESULT STDMETHODCALLTYPE Frame_TranslateAccelerator(IOleInPlaceFrame FAR* This, LPMSG lpmsg, WORD wID)
+HRESULT STDMETHODCALLTYPE Frame_RemoveMenus(IOleInPlaceFrame FAR *This, HMENU hmenuShared)
 {
 	NOTIMPLEMENTED;
 }
 
+HRESULT STDMETHODCALLTYPE Frame_SetStatusText(IOleInPlaceFrame FAR *This, LPCOLESTR pszStatusText)
+{
+	return (S_OK);
+}
 
+HRESULT STDMETHODCALLTYPE Frame_EnableModeless(IOleInPlaceFrame FAR *This, BOOL fEnable)
+{
+	return (S_OK);
+}
 
-
-
-
-
+HRESULT STDMETHODCALLTYPE Frame_TranslateAccelerator(IOleInPlaceFrame FAR *This, LPMSG lpmsg, WORD wID)
+{
+	NOTIMPLEMENTED;
+}
 
 /*************************** UnEmbedBrowserObject() ************************
  * Called to detach the browser object from our host window, and free its
@@ -773,8 +730,8 @@ HRESULT STDMETHODCALLTYPE Frame_TranslateAccelerator(IOleInPlaceFrame FAR* This,
 
 void MYWINAPI UnEmbedBrowserObject(HWND hwnd)
 {
-	IOleObject	**browserHandle;
-	IOleObject	*browserObject;
+	IOleObject **browserHandle;
+	IOleObject *browserObject;
 
 	// Retrieve the browser object's pointer we stored in our window's GWL_USERDATA when
 	// we initially attached the browser object to this window.
@@ -795,12 +752,6 @@ void MYWINAPI UnEmbedBrowserObject(HWND hwnd)
 	_ASSERT(0);
 }
 
-
-
-
-
-
-
 /******************************* DisplayHTMLPage() ****************************
  * Displays a URL, or HTML file on disk.
  *
@@ -818,9 +769,9 @@ void MYWINAPI UnEmbedBrowserObject(HWND hwnd)
 MYEXPORT
 long MYWINAPI DisplayHTMLPage(HWND hwnd, LPCTSTR webPageName)
 {
-	IWebBrowser2	*webBrowser2;
-	VARIANT			myURL;
-	IOleObject		*browserObject;
+	IWebBrowser2 *webBrowser2;
+	VARIANT myURL;
+	IOleObject *browserObject;
 
 	// Retrieve the browser object's pointer we stored in our window's GWL_USERDATA when
 	// we initially attached the browser object to this window.
@@ -828,7 +779,7 @@ long MYWINAPI DisplayHTMLPage(HWND hwnd, LPCTSTR webPageName)
 
 	// We want to get the base address (ie, a pointer) to the IWebBrowser2 object embedded within the browser
 	// object, so we can call some of the functions in the former's table.
-	if (!browserObject->lpVtbl->QueryInterface(browserObject, &IID_IWebBrowser2, (void**)&webBrowser2))
+	if (!browserObject->lpVtbl->QueryInterface(browserObject, &IID_IWebBrowser2, (void **)&webBrowser2))
 	{
 		// Ok, now the pointer to our IWebBrowser2 object is in 'webBrowser2', and so its VTable is
 		// webBrowser2->lpVtbl.
@@ -853,22 +804,24 @@ long MYWINAPI DisplayHTMLPage(HWND hwnd, LPCTSTR webPageName)
 
 #ifndef UNICODE
 		{
-		wchar_t		*buffer;
-		DWORD		size;
+			wchar_t *buffer;
+			DWORD size;
 
-		size = MultiByteToWideChar(CP_ACP, 0, webPageName, -1, 0, 0);
-		if (!(buffer = (wchar_t *)GlobalAlloc(GMEM_FIXED, sizeof(wchar_t) * size))) goto badalloc;
-		MultiByteToWideChar(CP_ACP, 0, webPageName, -1, buffer, size);
-		myURL.bstrVal = SysAllocString(buffer);
-		GlobalFree(buffer);
+			size = MultiByteToWideChar(CP_ACP, 0, webPageName, -1, 0, 0);
+			if (!(buffer = (wchar_t *)GlobalAlloc(GMEM_FIXED, sizeof(wchar_t) * size)))
+				goto badalloc;
+			MultiByteToWideChar(CP_ACP, 0, webPageName, -1, buffer, size);
+			myURL.bstrVal = SysAllocString(buffer);
+			GlobalFree(buffer);
 		}
 #else
 		myURL.bstrVal = SysAllocString(webPageName);
 #endif
 		if (!myURL.bstrVal)
 		{
-badalloc:	webBrowser2->lpVtbl->Release(webBrowser2);
-			return(-6);
+		badalloc:
+			webBrowser2->lpVtbl->Release(webBrowser2);
+			return (-6);
 		}
 
 		// Call the Navigate2() function to actually display the page.
@@ -883,15 +836,11 @@ badalloc:	webBrowser2->lpVtbl->Release(webBrowser2);
 		webBrowser2->lpVtbl->Release(webBrowser2);
 
 		// Success
-		return(0);
+		return (0);
 	}
 
-	return(-5);
+	return (-5);
 }
-
-
-
-
 
 /***************************** EmbedBrowserObject() **************************
  * Puts the browser object inside our host window, and save a pointer to this
@@ -916,12 +865,12 @@ badalloc:	webBrowser2->lpVtbl->Release(webBrowser2);
 MYEXPORT
 long MYWINAPI EmbedBrowserObject(HWND hwnd)
 {
-	IOleObject			*browserObject;
-	IWebBrowser2		*webBrowser2;
-	RECT				rect;
-	char				*ptr;
-	IOleInPlaceFrameEx	*iOleInPlaceFrameEx;
-	_IOleClientSiteEx	*_iOleClientSiteEx;
+	IOleObject *browserObject;
+	IWebBrowser2 *webBrowser2;
+	RECT rect;
+	char *ptr;
+	IOleInPlaceFrameEx *iOleInPlaceFrameEx;
+	_IOleClientSiteEx *_iOleClientSiteEx;
 
 	// Our IOleClientSite, IOleInPlaceSite, and IOleInPlaceFrame functions need to get our window handle. We
 	// could store that in some global. But then, that would mean that our functions would work with only that
@@ -943,7 +892,7 @@ long MYWINAPI EmbedBrowserObject(HWND hwnd)
 	//
 	// One final thing. We're going to allocate extra room to store the pointer to the browser object.
 	if (!(ptr = (char *)GlobalAlloc(GMEM_FIXED, sizeof(IOleInPlaceFrameEx) + sizeof(_IOleClientSiteEx) + sizeof(IOleObject *))))
-		return(-1);
+		return (-1);
 
 	// Initialize our IOleInPlaceFrame object with a pointer to our IOleInPlaceFrame VTable.
 	iOleInPlaceFrameEx = (IOleInPlaceFrameEx *)(ptr + sizeof(IOleObject *));
@@ -986,7 +935,7 @@ long MYWINAPI EmbedBrowserObject(HWND hwnd)
 	// _IOleClientSiteEx struct starts with an embedded IOleClientSite. So the browser won't care, and we want
 	// this extended struct passed to our IOleClientSite functions.
 
-	if (!OleCreate(&CLSID_WebBrowser, &IID_IOleObject, OLERENDER_DRAW, 0, (IOleClientSite *)_iOleClientSiteEx, (IStorage *)&MyIStorage, (void**)&browserObject))
+	if (!OleCreate(&CLSID_WebBrowser, &IID_IOleObject, OLERENDER_DRAW, 0, (IOleClientSite *)_iOleClientSiteEx, (IStorage *)&MyIStorage, (void **)&browserObject))
 	{
 		// Ok, we now have the pointer to the browser object in 'browserObject'. Let's save this in the
 		// memory block we allocated above, and then save the pointer to that whole thing in our window's
@@ -1041,7 +990,7 @@ long MYWINAPI EmbedBrowserObject(HWND hwnd)
 			// object, so we can call some of the functions in the former's table. For example, one IWebBrowser2 function
 			// we intend to call below will be Navigate2(). So we call the browser object's QueryInterface to get our
 			// pointer to the IWebBrowser2 object.
-			!browserObject->lpVtbl->QueryInterface(browserObject, &IID_IWebBrowser2, (void**)&webBrowser2))
+			!browserObject->lpVtbl->QueryInterface(browserObject, &IID_IWebBrowser2, (void **)&webBrowser2))
 		{
 			// Ok, now the pointer to our IWebBrowser2 object is in 'webBrowser2', and so its VTable is
 			// webBrowser2->lpVtbl.
@@ -1061,18 +1010,17 @@ long MYWINAPI EmbedBrowserObject(HWND hwnd)
 			webBrowser2->lpVtbl->Release(webBrowser2);
 
 			// Success
-			return(0);
+			return (0);
 		}
 
 		// Something went wrong!
 		UnEmbedBrowserObject(hwnd);
-		return(-3);
+		return (-3);
 	}
 
 	GlobalFree(ptr);
-	return(-2);
+	return (-2);
 }
-
 
 #ifdef DLL_BUILDING
 
@@ -1083,56 +1031,57 @@ long MYWINAPI EmbedBrowserObject(HWND hwnd)
 __declspec(dllexport)
 #if defined(_MSC_VER)
 #ifndef _DEBUG
-BOOL MYWINAPI _DllMainCRTStartup(HANDLE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+	BOOL MYWINAPI _DllMainCRTStartup(HANDLE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 #else
-BOOL MYWINAPI DllMain(HANDLE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)  /* <--- Doesn't replace startup code */
+	BOOL MYWINAPI DllMain(HANDLE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) /* <--- Doesn't replace startup code */
 #endif
 #else
-BOOL MYWINAPI DllMain(HANDLE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+	BOOL MYWINAPI DllMain(HANDLE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 #endif
 {
-    switch(fdwReason)
+	switch (fdwReason)
 	{
-		/* ============================================================== */
-		case DLL_PROCESS_ATTACH:
-		{
-			/*
-			 * Here you would do any initialization that you want to do when
-			 * the DLL loads. The OS calls this every time another program
-			 * runs which uses this DLL. You should put some complementary
-			 * cleanup code in the DLL_PROCESS_DETACH case.
-			 */
+	/* ============================================================== */
+	case DLL_PROCESS_ATTACH:
+	{
+		/*
+		 * Here you would do any initialization that you want to do when
+		 * the DLL loads. The OS calls this every time another program
+		 * runs which uses this DLL. You should put some complementary
+		 * cleanup code in the DLL_PROCESS_DETACH case.
+		 */
 
-            /* Initialize the OLE interface */
-			if (OleInitialize(NULL)) return(0);
-			break;
-		}
+		/* Initialize the OLE interface */
+		if (OleInitialize(NULL))
+			return (0);
+		break;
+	}
 
-		/* ============================================================== */
-		case DLL_THREAD_ATTACH:
-		{
-			/* We don't need to do any initialization for each thread of
-			 * the program which uses this DLL, so disable thread messages.
-			 */
-			DisableThreadLibraryCalls(hinstDLL);
-			break;
-		}
+	/* ============================================================== */
+	case DLL_THREAD_ATTACH:
+	{
+		/* We don't need to do any initialization for each thread of
+		 * the program which uses this DLL, so disable thread messages.
+		 */
+		DisableThreadLibraryCalls(hinstDLL);
+		break;
+	}
 
-/*
-		case DLL_THREAD_DETACH:
-		{
-			break;
-		}
-*/
-		/* ============================================================== */
-		case DLL_PROCESS_DETACH:
-		{
-			OleUninitialize();
-		}
+		/*
+				case DLL_THREAD_DETACH:
+				{
+					break;
+				}
+		*/
+	/* ============================================================== */
+	case DLL_PROCESS_DETACH:
+	{
+		OleUninitialize();
+	}
 	}
 
 	/* Success */
-	return(1);
+	return (1);
 }
 
-#endif  // DLL_BUILDING
+#endif // DLL_BUILDING

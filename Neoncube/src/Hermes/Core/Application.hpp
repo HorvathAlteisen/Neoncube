@@ -1,12 +1,17 @@
+#pragma once
+
 #include <memory>
 
-#include "Core/Window.hpp"
+#include "Hermes/Core/Window.hpp"
 
-namespace Hermes {
-    class Application {
-        private:
+namespace Hermes
+{
+    class Application
+    {
+    private:
         std::unique_ptr<Window> m_Window;
-        public:
+
+    public:
         Application();
         void Run();
     };
