@@ -29,6 +29,7 @@
 #include "system.h"
 
 #include "Config/ConfigToml.hpp"
+#include "Core/Application.hpp"
 
 struct inisetting settings;
 
@@ -134,7 +135,10 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	_CrtDumpMemoryLeaks();
 #endif /*_DEBUG*/
 
-	Hermes::ConfigToml *config;
+	Hermes::ConfigToml* config;
+
+	Hermes::Application* app = Hermes::Application();
+	app->Run();
 
 	HWND hwnd;
 	MSG message;
