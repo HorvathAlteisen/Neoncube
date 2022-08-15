@@ -1,3 +1,6 @@
 [submodule "vendor/premake-core"]
 	path = vendor/premake-core
 	url = https://github.com/premake/premake-core.git
+[submodule "Neoncube/vendor/tomlplusplus"]
+	path = Neoncube/vendor/tomlplusplus
+	url = https://github.com/marzer/tomlplusplus.git

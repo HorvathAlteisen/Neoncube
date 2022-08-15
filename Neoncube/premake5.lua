@@ -11,6 +11,7 @@ project "Neoncube"
     includedirs {
         "src",
         "vendor",
+        "vendor/tomlplusplus/include",
         "../Browser/src",
         "%{wks.location}/Resources"
     }
