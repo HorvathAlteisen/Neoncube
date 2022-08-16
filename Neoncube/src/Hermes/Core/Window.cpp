@@ -5,8 +5,11 @@ namespace Hermes
 {
     std::unique_ptr<Window> Window::Create(const WindowProps &props)
     {
-
-        return std::unique_ptr<Window>(&props);
+        #ifdef _WIN32
+            return std::unique_ptr<Window>(&props);
+        #else
+        #error Currently Windows only!
+        #endif
     }
 
     uint8_t Window::MessageBox(Window *window, std::string text, std::string caption, uint32_t type)

@@ -17,6 +17,8 @@ namespace Hermes
         }
 
         Init();
+
+        ShowWindow(hwnd, 0);
     }
 
     bool WindowsWindow::InitInstance()

@@ -21,6 +21,8 @@
 
 #include <wininet.h>
 
+#include <filesystem>
+
 #include <zlib/zlib.h>
 
 #include "Browser\browser.h"
@@ -143,10 +145,11 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	_CrtDumpMemoryLeaks();
 #endif /*_DEBUG*/
 
+	Hermes::Application *app = new Hermes::Application();
+
 	Hermes::ConfigToml *settings;
 	Hermes::ConfigToml *styleConfig;
 
-	Hermes::Application *app = new Hermes::Application();
 	app->Run();
 
 	HWND hwnd;
@@ -157,7 +160,8 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 
 	if (!InitInstance())
 	{
-		MessageBoxA(NULL, "Application already running...", "Error", MB_OK | MB_ICONINFORMATION);
+		Hermes::MessageBox(nullptr, "Application already running...", "Error", MB_OK | MB_ICONINFORMATION);
+		//old: MessageBoxA(NULL, "Application already running...", "Error", MB_OK | MB_ICONINFORMATION);
 		return 0;
 	}
 
@@ -168,12 +172,20 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	if (FAILED(OleInitialize(NULL)))
 		PostError(TRUE, "Failed to initialize OLE");
 
-	CreateDirectoryA("neoncube", NULL);
-	if (GetLastError() != ERROR_ALREADY_EXISTS)
+	std::error_code& ec
+	std::fs::create_directory("neoncube", ec);
+	if(ec != std::errc:: )
 	{
-		MessageBoxA(NULL, "neoncube directory created, please copy files inside and configure!", NULL, MB_OK | MB_ICONINFORMATION);
-		return -1;
+
 	}
+	
+	//old: CreateDirectoryA("neoncube", NULL);
+	/*: oldif (GetLastError() != ERROR_ALREADY_EXISTS)
+	{
+		Hermes::MessageBox(nullptr, "neoncube directory created, please copy files inside and configure!", nullptr, NULL, MB_OK | MB_ICONINFORMATION);
+		//old: MessageBoxA(NULL, "neoncube directory created, please copy files inside and configure!", NULL, MB_OK | MB_ICONINFORMATION);
+		return -1;
+	}*/
 
 	// prepare error.log
 	std::filesystem::remove("neoncube\\error.log");
@@ -186,7 +198,8 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	}
 	catch (std::string message)
 	{
-		AddErrorLog("%s\n", message);
+		//AddErrorLog("%s\n", message);
+		Hermes::Log::Error("%s\n", message);
 		Hermes::Window::MessageBox(nullptr, message, "Error", MB_OK | MB_ICONERROR);
 		// old: MessageBoxA(NULL, message, "Error", MB_OK | MB_ICONERROR);
 		return -1;
@@ -222,11 +235,12 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 		if (GetPrivateProfileString("server", "skin", NULL, settings.szSkin, sizeof(settings.szSkin) / sizeof(settings.szSkin[0]), iniFile) <= 0)
 			throw "Invalid key in NeonCube.ini: skin";
 	}
-	catch (LPCSTR message)
+	catch (std::string message)
 	{
-		Hermes::Window::MessageBox(nullptr, message, "Error", MB_OK | MB_ICONERROR);
 		// old: MessageBoxA(NULL, message, "Error", MB_OK | MB_ICONERROR);
-		AddErrorLog("%s\n", message);
+		Hermes::Window::MessageBox(nullptr, message, "Error", MB_OK | MB_ICONERROR);
+		Hermes::Log::Error("%s\n", message);
+		//:old AddErrorLog("%s\n", message);
 		return -1;
 	}
 
@@ -308,15 +322,16 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 			break;
 		}
 	}
-	catch (LPCSTR message)
+	catch (std::string message)
 	{
-		MessageBoxA(NULL, message, "Error", MB_OK | MB_ICONERROR);
-		AddErrorLog("%s\n", message);
+		//old: MessageBoxA(NULL, message, "Error", MB_OK | MB_ICONERROR);
+		Hermes::MesageBox(nullptr, message, "Error", MB_OK | MB_ICONERROR);
+		Hermes::Log::Error("%s\n", message);
+		//old: AddErrorLog("%s\n", message);
 		return -1;
 	}
 
 	BUTTONSTYLE bsMinimize;
-
 	bsMinimize.x = LoadINIInt("minimize", "xcoord");
 	bsMinimize.y = LoadINIInt("minimize", "ycoord");
 	bsMinimize.width = LoadINIInt("minimize", "width");
@@ -347,7 +362,6 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	bsCancel.height = LoadINIInt("cancel", "height");
 
 	COORDS crdProgress;
-
 	crdProgress.x = LoadINIInt("progressbar", "xcoord");
 	crdProgress.y = LoadINIInt("progressbar", "ycoord");
 	crdProgress.width = LoadINIInt("progressbar", "width");

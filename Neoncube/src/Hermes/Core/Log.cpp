@@ -1,8 +1,8 @@
 #include "Log.hpp"
 
 namespace Hermes
-{
-    void AddDebug(LPCTSTR fmt, ...)
+{        
+    void Log::Debug(std::string fmt, T t, Args... args)
     {
         va_list args;
         TCHAR buf[1024];
@@ -11,31 +11,51 @@ namespace Hermes
         vsprintf(buf, fmt, args);
         va_end(args);
 
-        FILE *f;
-        f = fopen("neoncube\\debug.log", "a");
+        //FILE *f;
+        //f = fopen("neoncube\\debug.log", "a");
 
-        if (f != NULL)
+        writeLog(buf, "neoncube\\debug.log");
+
+        /*if (f != NULL)
         {
             fwrite(buf, 1, strlen(buf), f);
             fclose(f);
-        }
+        }*/
     }
 
-    void PostError(BOOL exitapp, LPCTSTR lpszErrMessage, ...)
+    void Log::Error(std::string fmt, T t, Args... args)
     {
-        DWORD dwError = GetLastError();
-        va_list arg;
+        va_list args;
         TCHAR buf[1024];
 
-        va_start(arg, lpszErrMessage);
-        vsprintf(buf, lpszErrMessage, arg);
-        va_end(arg);
+        va_start(args, fmt);
+        vsprintf(buf, fmt, args);
+        va_end(args);
 
-        MessageBoxA(NULL, buf, "Error", MB_OK | MB_ICONERROR);
-        lstrcatA(buf, "\n"); // new line for our error log
-        AddErrorLog(buf);
+        //FILE *f;
 
-        if (exitapp)
-            ExitProcess(dwError);
+        fs.open("neoncube\\error.log", std::fstream::app)
+        //f = fopen("neoncube\\error.log", "a");
+
+        writeLog(buf, "neoncube\\error.log");
+
+        /*if (f != NULL)
+        {
+            fwrite(buf, 1, strlen(buf), f);
+            fclose(f);
+        }*/
+    }
+
+    void Log::writeLog(std::string message, std::filesystem::path filepath)
+    {
+        std::fstream fs;
+
+        fs.open(filepath, std::fstream::app);
+
+        if(!fs.is_open())
+        {
+            fs << message << std::endl;
+            fs.close();
+        }
     }
 }
