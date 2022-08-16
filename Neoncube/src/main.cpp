@@ -13,8 +13,6 @@
 
 #include "main.h"
 
-
-
 #include "resource.h"
 
 #include <malloc.h>
@@ -160,8 +158,8 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 
 	if (!InitInstance())
 	{
-		Hermes::MessageBox(nullptr, "Application already running...", "Error", MB_OK | MB_ICONINFORMATION);
-		//old: MessageBoxA(NULL, "Application already running...", "Error", MB_OK | MB_ICONINFORMATION);
+		Hermes::Window::MessageBox(nullptr, "Application already running...", "Error", MB_OK | MB_ICONINFORMATION);
+		// old: MessageBoxA(NULL, "Application already running...", "Error", MB_OK | MB_ICONINFORMATION);
 		return 0;
 	}
 
@@ -172,24 +170,23 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	if (FAILED(OleInitialize(NULL)))
 		PostError(TRUE, "Failed to initialize OLE");
 
-	std::error_code& ec
+	std::error_code &ec;
 	std::fs::create_directory("neoncube", ec);
-	if(ec != std::errc:: )
+	if (ec != std::errc::)
 	{
-
 	}
-	
-	//old: CreateDirectoryA("neoncube", NULL);
+
+	// old: CreateDirectoryA("neoncube", NULL);
 	/*: oldif (GetLastError() != ERROR_ALREADY_EXISTS)
 	{
-		Hermes::MessageBox(nullptr, "neoncube directory created, please copy files inside and configure!", nullptr, NULL, MB_OK | MB_ICONINFORMATION);
+		Hermes::Window::MessageBox(nullptr, "neoncube directory created, please copy files inside and configure!", nullptr, NULL, MB_OK | MB_ICONINFORMATION);
 		//old: MessageBoxA(NULL, "neoncube directory created, please copy files inside and configure!", NULL, MB_OK | MB_ICONINFORMATION);
 		return -1;
 	}*/
 
 	// prepare error.log
 	std::filesystem::remove("neoncube\\error.log");
-	//old: DeleteFileA("neoncube\\error.log");
+	// old: DeleteFileA("neoncube\\error.log");
 
 	// checks if neoncube.ini exists
 	try
@@ -198,7 +195,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	}
 	catch (std::string message)
 	{
-		//AddErrorLog("%s\n", message);
+		// AddErrorLog("%s\n", message);
 		Hermes::Log::Error("%s\n", message);
 		Hermes::Window::MessageBox(nullptr, message, "Error", MB_OK | MB_ICONERROR);
 		// old: MessageBoxA(NULL, message, "Error", MB_OK | MB_ICONERROR);
@@ -240,7 +237,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 		// old: MessageBoxA(NULL, message, "Error", MB_OK | MB_ICONERROR);
 		Hermes::Window::MessageBox(nullptr, message, "Error", MB_OK | MB_ICONERROR);
 		Hermes::Log::Error("%s\n", message);
-		//:old AddErrorLog("%s\n", message);
+		//: old AddErrorLog("%s\n", message);
 		return -1;
 	}
 
@@ -324,10 +321,10 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	}
 	catch (std::string message)
 	{
-		//old: MessageBoxA(NULL, message, "Error", MB_OK | MB_ICONERROR);
+		// old: MessageBoxA(NULL, message, "Error", MB_OK | MB_ICONERROR);
 		Hermes::MesageBox(nullptr, message, "Error", MB_OK | MB_ICONERROR);
 		Hermes::Log::Error("%s\n", message);
-		//old: AddErrorLog("%s\n", message);
+		// old: AddErrorLog("%s\n", message);
 		return -1;
 	}
 

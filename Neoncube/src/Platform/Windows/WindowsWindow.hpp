@@ -12,10 +12,16 @@ namespace Hermes
 {
     class WindowsWindow : Window
     {
+    private:
+        HWND m_hWindow;
+
     public:
         WindowsWindow(const WindowProps &props);
+        HWND *getHandle();
 
     private:
         bool InitInstance();
-    };
+        LRESULT CALLBACK Callback(HWND handleWindow, uint32_t message, WPARAM wParam, LPARAM lParam);
+        static LRESULT CALLBACK Dispatcher(HWND handleWindow, uint32_t message, WPARAM wParam, LPARAM lParam);
+    }
 }
