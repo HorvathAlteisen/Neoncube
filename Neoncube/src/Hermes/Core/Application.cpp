@@ -29,7 +29,7 @@ namespace Hermes
 
         for(auto [k,v]: *config.get()["Buttons"].as_table())
         {
-            WindowsButton
+            Button
         }
 
     }
