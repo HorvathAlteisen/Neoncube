@@ -1,10 +1,37 @@
 #include "Application.hpp"
 #include "Window.hpp"
+#include "Config/ConfigToml.hpp"
 
 namespace Hermes
 {
     Application::Application()
     {
+        Window* window;
+        WindowProps props = {0};
+        ConfigToml* config;
+        ConfigToml* style;
+
+        try {
+            config = new ConfigToml("neoncube\\neoncube.toml");
+        } catch(std::string message)
+        {
+            Window::MessageBox(nullptr, message, "Error", MB_OK | MB_ICONINFORMATION);
+        }
+
+        
+
+        props.className = "Hermes" + "_ClASS";
+        props.WindowName = "Hermes - " + style.get()["server"][];
+        props.width = config.get()["window"]["minwidth"];
+        props.height = config.get()["window"]["minheight"];
+
+        window = Window::Create(props);
+
+        for(auto [k,v]: *config.get()["Buttons"].as_table())
+        {
+            WindowsButton
+        }
+
     }
 
     void Application::Run()

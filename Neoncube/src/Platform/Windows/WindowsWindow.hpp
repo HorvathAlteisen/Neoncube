@@ -18,6 +18,7 @@ namespace Hermes
     public:
         WindowsWindow(const WindowProps &props);
         HWND *getHandle();
+        void Show(int nCmdShow);
 
     private:
         bool InitInstance();

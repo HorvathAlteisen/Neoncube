@@ -4,18 +4,16 @@
 
 namespace Hermes
 {
-    struct ButtonProps
+    struct ButtonProps : WindowProps
     {
         uint16_t x;
         uint16_t y;
-        uint16_t height;
-        uint16_t width;
     }; 
 
-    class Button
+    class Button : public Window
     {
         public:
-        static std::unique_ptr<Button> Create(Window window, ButtonProps props);
+        static std::unique_ptr<Button> Create(Window parentWindow, ButtonProps props);
 
         private:
             Window m_Window;

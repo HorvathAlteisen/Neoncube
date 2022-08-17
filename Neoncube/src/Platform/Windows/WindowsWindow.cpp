@@ -8,8 +8,9 @@ namespace Hermes
         HINSTANCE hInstance = GetModuleHandle(NULL);
         WNDCLASSEXA windowClass;
 
-        // Zeroes variable, just windows shenanigans
+        // Zeroes variable, just a windows thing
         SecureZeroMemory(&windowClass, sizeof(WNDCLASSEXA));
+        windowClass = {0};
 
         windowClass.cbSize = sizeof(WNDCLASSEXA);
         windowClass.style = CS_OWNDC;
@@ -20,7 +21,7 @@ namespace Hermes
         windowClass.hIcon = LoadIcon(NULL, MAKEINTRESOURCE(IDI_ICON));
         windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
         // windowClass.hbrBackground	= (HBRUSH)GetStockObject(NULL_BRUSH);
-        windowClass.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(20, 22, 29));
+        windowClass.hbrBackground = CreateSolidBrush((COLORREF)props.backgroundColor);
         windowClass.lpszMenuName = NULL;
         windowClass.lpszClassName = props.className.c_str();
         windowClass.hIconSm = LoadIcon(NULL, MAKEINTRESOURCE(IDI_ICON));
@@ -35,13 +36,17 @@ namespace Hermes
                                     props.width, props.height,
                                     NULL, NULL,
                                     hInstance, NULL);
-
-        ShowWindow(m_hWindow, nCmdShow);
     }
 
     HWND *WindowsWindow::getHandle()
     {
         return &m_hWindow;
+    }
+
+    void WindowsWindow::Show(int nCmdShow)
+    {
+        // nCmdShow: https://docs.microsoft.com/de-de/windows/win32/api/winuser/nf-winuser-showwindow?redirectedfrom=MSDN
+        ShowWindow(m_hWindow, nCmdShow);
     }
 
     LRESULT CALLBACK WindowsWindow::Dispatcher(HWND handleWindow, uint32_t message, WPARAM wParam, LPARAM lParam)

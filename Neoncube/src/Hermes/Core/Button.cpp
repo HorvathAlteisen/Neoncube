@@ -3,10 +3,10 @@
 
 namespace Hermes
 {
-    std::unique_ptr<Button> Button::Create(Window window, ButtonProps props)
+    std::unique_ptr<Button> Button::Create(Window parentWindow, ButtonProps props)
     {
         #ifdef _WIN32
-        return std::unique_ptr<Button>(WindowsButton(props));
+        return std::unique_ptr<Button>(WindowsButton(parentWindow, props));
         #else
         #error Currently Windows only!
         #endif
