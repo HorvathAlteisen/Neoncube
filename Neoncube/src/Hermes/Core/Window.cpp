@@ -1,12 +1,13 @@
 #include "Window.hpp"
+#include "Platform/Windows/WindowsWindow.hpp"
 #include <utility>
 
 namespace Hermes
 {
-    std::unique_ptr<Window> Window::Create(const WindowProps &props)
+    Window* Window::Create(const WindowProps &props)
     {
         #ifdef _WIN32
-            return std::unique_ptr<Window>(&props);
+        return new WindowsWindow(props);
         #else
         #error Currently Windows only!
         #endif
