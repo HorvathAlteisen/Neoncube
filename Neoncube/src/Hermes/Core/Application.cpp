@@ -16,9 +16,7 @@ namespace Hermes
         } catch(std::string message)
         {
             Window::MessageBox(nullptr, message, "Error", MB_OK | MB_ICONINFORMATION);
-        }
-
-        
+        }        
 
         props.className = "Hermes" + "_ClASS";
         props.WindowName = "Hermes - " + style.get()["server"][];

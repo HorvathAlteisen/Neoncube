@@ -16,6 +16,6 @@ namespace Hermes
         static std::unique_ptr<Button> Create(Window parentWindow, ButtonProps props);
 
         private:
-            Window m_Window;
+            Window* m_Window;
     };
 }

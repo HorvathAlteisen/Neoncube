@@ -24,8 +24,12 @@ namespace Hermes
     class Window
     {
     public:
+        using EventCallbackFn = std::function<void(Event&)>;
         static Window* Create(const WindowProps &props);
         static uint8_t MessageBox(Window *window, std::string text, std::string caption, uint32_t type);
         static uint8_t MessageBox(Window *window, std::wstring text, std::wstring caption, uint32_t type);
+        virtual void OnUpdate() = 0;
+
+        virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
     };
 }
