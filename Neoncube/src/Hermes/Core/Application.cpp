@@ -25,10 +25,10 @@ namespace Hermes
 
         window = Window::Create(props);
 
-        for(auto [k,v]: *config.get()["Buttons"].as_table())
+        /*for(auto [k,v]: *config.get()["Buttons"].as_table())
         {
             Button
-        }
+        }*/
 
     }
 

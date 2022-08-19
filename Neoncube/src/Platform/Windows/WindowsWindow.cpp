@@ -17,13 +17,13 @@ namespace Hermes
         windowClass.cbClsExtra = 0;
         windowClass.cbWndExtra = 0;
         windowClass.hInstance = hInstance;
-        //windowClass.hIcon = LoadIcon(NULL, MAKEINTRESOURCE(IDI_ICON));
+        // windowClass.hIcon = LoadIcon(NULL, MAKEINTRESOURCE(IDI_ICON));
         windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
         // windowClass.hbrBackground	= (HBRUSH)GetStockObject(NULL_BRUSH);
         windowClass.hbrBackground = CreateSolidBrush((COLORREF)props.backgroundColor);
         windowClass.lpszMenuName = NULL;
         windowClass.lpszClassName = props.className.c_str();
-        //windowClass.hIconSm = LoadIcon(NULL, MAKEINTRESOURCE(IDI_ICON));
+        // windowClass.hIconSm = LoadIcon(NULL, MAKEINTRESOURCE(IDI_ICON));
 
         RegisterClassExA(&windowClass);
 
@@ -50,6 +50,18 @@ namespace Hermes
     {
         // nCmdShow: https://docs.microsoft.com/de-de/windows/win32/api/winuser/nf-winuser-showwindow?redirectedfrom=MSDN
         ShowWindow(m_hWindow, nCmdShow);
+    }
+
+    void WindowsWindow::OnUpdate()
+    {
+        MSG msg = {};
+        // https://github.com/glfw/glfw/blob/0f9a9578f38518317d0b3305dd816ba7b400972d/src/win32_window.c
+        // PeekMessage instead?
+        while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
     }
 
     LRESULT CALLBACK WindowsWindow::Dispatcher(HWND handleWindow, uint32_t message, WPARAM wParam, LPARAM lParam)
@@ -96,7 +108,7 @@ namespace Hermes
 
             EndPaint(handleWindow, &ps);
         }
-
+        }
         return DefWindowProc(handleWindow, message, wParam, lParam);
     }
 }

@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <commctrl.h>
 
+#include "Core/Application.hpp"
 #include "Core/Window.hpp"
 
 LRESULT CALLBACK Callback(HWND handleWindow, uint32_t message, WPARAM wParam, LPARAM lParam);
@@ -19,9 +20,9 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
     props.WindowName = "Hermes Patcher";
     props.backgroundColor = 0x000000;
 
-    Hermes::Window* window;
+    Hermes::Application *app;
 
-    window = Hermes::Window::Create(props);
+    app = new Hermes::Application();
 
     /*HINSTANCE _hInstance = GetModuleHandle(NULL);
     WNDCLASSEXA windowClass;
@@ -86,10 +87,8 @@ LRESULT CALLBACK Callback(HWND handleWindow, uint32_t message, WPARAM wParam, LP
 
         EndPaint(handleWindow, &ps);
     }
-    return 0;
-
+        return 0;
     }
-
 
     return DefWindowProc(handleWindow, message, wParam, lParam);
 }

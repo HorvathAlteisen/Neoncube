@@ -9,7 +9,8 @@ project "WindowsWindowTest"
     files {
         "src/*.*",
         "../../Neoncube/src/Platform/Windows/WindowsWindow.*",
-        "../../NeonCube/src/Hermes/Core/Window.*"
+        "../../Neoncube/src/Hermes/Core/Window.*",
+        "../../Neoncube/src/Hermes/Core/Application.*"
     }
 
     includedirs {
