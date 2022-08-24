@@ -10,12 +10,14 @@ project "WindowsWindowTest"
         "src/*.*",
         "../../Neoncube/src/Platform/Windows/WindowsWindow.*",
         "../../Neoncube/src/Hermes/Core/Window.*",
-        "../../Neoncube/src/Hermes/Core/Application.*"
+        --"../../Neoncube/src/Hermes/Core/Application.*",
+        "../../Neoncube/src/Config/*.*"
     }
 
     includedirs {
         "../../Neoncube/src",
-        "../../Neoncube/src/Hermes"
+        "../../Neoncube/src/Hermes",
+        "../../Neoncube/vendor/tomlplusplus/include"
     }
 
     links {

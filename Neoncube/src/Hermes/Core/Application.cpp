@@ -7,7 +7,7 @@ namespace Hermes
     Application::Application()
     {
         Window* window;
-        WindowProps props = {0};
+        WindowProps props = {};
         ConfigToml* config;
         ConfigToml* style;
 
@@ -18,10 +18,12 @@ namespace Hermes
             Window::MessageBox(nullptr, message, "Error", MB_OK | MB_ICONINFORMATION);
         }        
 
-        props.className = "Hermes" + "_ClASS";
-        props.WindowName = "Hermes - " + style.get()["server"][];
-        props.width = config.get()["window"]["minwidth"];
-        props.height = config.get()["window"]["minheight"];
+        props.className = "Hermes";
+        props.className += "_CLASS";
+        props.WindowName = "Hermes - ";
+        props.WindowName += *style->get()["server"]["server_name"].value<std::string>();
+        props.width = (uint16_t)config->get()["window"]["minwidth"].as_integer();
+        props.height = (uint16_t)config->get()["window"]["minheight"].as_integer();
 
         window = Window::Create(props);
 
@@ -40,7 +42,7 @@ namespace Hermes
         }
 
         // initialize common controls
-        InitCommonControls();
+        //InitCommonControls();
 
         // initialize OLE
         if (FAILED(OleInitialize(NULL)))
@@ -57,10 +59,10 @@ namespace Hermes
         m_Window = Window::Create(props);
     }
 
-    bool InitInstance()
+    bool Application::InitInstance()
     {
         HANDLE hMutex;
-        hMutex = CreateMutex(NULL, TRUE, "GlobalMutex");
+        hMutex = CreateMutex(NULL, TRUE, L"GlobalMutex");
 
         switch (GetLastError())
         {

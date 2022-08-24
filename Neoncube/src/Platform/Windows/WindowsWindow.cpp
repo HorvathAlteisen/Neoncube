@@ -1,5 +1,7 @@
 #include "WindowsWindow.hpp"
 
+#include <iostream>
+
 namespace Hermes
 {
     WindowsWindow::WindowsWindow(const WindowProps &props)
@@ -20,10 +22,13 @@ namespace Hermes
         // windowClass.hIcon = LoadIcon(NULL, MAKEINTRESOURCE(IDI_ICON));
         windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
         // windowClass.hbrBackground	= (HBRUSH)GetStockObject(NULL_BRUSH);
-        windowClass.hbrBackground = CreateSolidBrush((COLORREF)props.backgroundColor);
+        windowClass.hbrBackground = CreateSolidBrush(RGB(GetRValue(props.backgroundColor), GetGValue(props.backgroundColor), GetBValue(props.backgroundColor)));
         windowClass.lpszMenuName = NULL;
         windowClass.lpszClassName = props.className.c_str();
         // windowClass.hIconSm = LoadIcon(NULL, MAKEINTRESOURCE(IDI_ICON));
+
+        std::cout << GetRValue(props.backgroundColor) << " " << GetGValue(props.backgroundColor) << " " << GetBValue(props.backgroundColor) << std::endl;
+        std::cout << std::hex << props.backgroundColor << std::endl;
 
         RegisterClassExA(&windowClass);
 
