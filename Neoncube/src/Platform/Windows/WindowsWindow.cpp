@@ -22,13 +22,10 @@ namespace Hermes
         // windowClass.hIcon = LoadIcon(NULL, MAKEINTRESOURCE(IDI_ICON));
         windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
         // windowClass.hbrBackground	= (HBRUSH)GetStockObject(NULL_BRUSH);
-        windowClass.hbrBackground = CreateSolidBrush(RGB(GetRValue(props.backgroundColor), GetGValue(props.backgroundColor), GetBValue(props.backgroundColor)));
+        windowClass.hbrBackground = CreateSolidBrush(RGB(GetBValue(props.backgroundColor), GetGValue(props.backgroundColor), GetRValue(props.backgroundColor)));
         windowClass.lpszMenuName = NULL;
         windowClass.lpszClassName = props.className.c_str();
         // windowClass.hIconSm = LoadIcon(NULL, MAKEINTRESOURCE(IDI_ICON));
-
-        std::cout << GetRValue(props.backgroundColor) << " " << GetGValue(props.backgroundColor) << " " << GetBValue(props.backgroundColor) << std::endl;
-        std::cout << std::hex << props.backgroundColor << std::endl;
 
         RegisterClassExA(&windowClass);
 
@@ -109,8 +106,16 @@ namespace Hermes
 
             // All painting occurs here, between BeginPaint and EndPaint.
 
-            FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+            /*FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));*/
 
+            EndPaint(handleWindow, &ps);
+            break;
+        }
+        case WM_CTLCOLORBTN:
+        {
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(handleWindow, &ps);
+            FillRect(hdc, &ps.rcPaint, CreateSolidBrush(RGB(0, 116, 224)));
             EndPaint(handleWindow, &ps);
         }
         }

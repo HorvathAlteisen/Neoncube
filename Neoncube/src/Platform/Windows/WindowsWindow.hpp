@@ -16,9 +16,9 @@ namespace Hermes
         HWND m_hWindow;
 
     public:
-        WindowsWindow(const WindowProps& props);
-        //void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
-        HWND* getHandle();
+        WindowsWindow(const WindowProps &props);
+        // void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
+        HWND *getHandle();
         void Show(int nCmdShow);
         void OnUpdate() override;
 

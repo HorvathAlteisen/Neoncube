@@ -8,14 +8,11 @@ namespace Hermes
     {
         uint16_t x;
         uint16_t y;
-    }; 
+    };
 
-    class Button : public Window
+    class Button
     {
-        public:
-        static std::unique_ptr<Button> Create(Window parentWindow, ButtonProps props);
-
-        private:
-            Window* m_Window;
+    public:
+        static Button *Create(Window *parentWindow, ButtonProps props);
     };
 }

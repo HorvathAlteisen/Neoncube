@@ -3,6 +3,8 @@
 
 #include "Core/Application.hpp"
 #include "Core/Window.hpp"
+#include "Platform/Windows/WindowsWindow.hpp"
+#include "Core/Button.hpp"
 #include "Config/ConfigToml.hpp"
 
 #include <iostream>
@@ -112,6 +114,8 @@ int main()
     Hermes::WindowProps props = {};
     Hermes::ConfigToml *config;
     Hermes::ConfigToml *style;
+    Hermes::Button *button;
+    Hermes::ButtonProps buttonProps = {};
 
     /*props.className = "Hermes";
     props.height = 640;
@@ -147,34 +151,22 @@ int main()
     props.height = *style->get()["window"]["minheight"].value<uint16_t>();
     props.backgroundColor = *style->get()["window"]["background_color"].value<uint32_t>();
 
-    std::cout << "0x" << std::hex << props.backgroundColor << std::endl;
-    std::cout << props.backgroundColor << std::endl;
-    std::cout << *style->get()["window"]["background_color"].value<uint32_t>() << std::endl;
-
     window = Hermes::Window::Create(props);
-}
 
-LRESULT CALLBACK Callback(HWND handleWindow, uint32_t message, WPARAM wParam, LPARAM lParam)
-{
-    switch (message)
+    buttonProps.backgroundColor = 0x0074E1;
+    buttonProps.className = "STARTGAME";
+    buttonProps.height = 56;
+    buttonProps.width = 270;
+    buttonProps.WindowName = "Play";
+    buttonProps.x = 40;
+    buttonProps.y = 503;
+
+    button = Hermes::Button::Create(window, buttonProps);
+
+    MSG msg = {};
+    while (GetMessage(&msg, NULL, 0, 0) > 0)
     {
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
-
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(handleWindow, &ps);
-
-        // All painting occurs here, between BeginPaint and EndPaint.
-
-        FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
-
-        EndPaint(handleWindow, &ps);
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
     }
-        return 0;
-    }
-
-    return DefWindowProc(handleWindow, message, wParam, lParam);
 }

@@ -8,8 +8,9 @@ project "WindowsWindowTest"
 
     files {
         "src/*.*",
-        "../../Neoncube/src/Platform/Windows/WindowsWindow.*",
+        "../../Neoncube/src/Platform/Windows/*.*",
         "../../Neoncube/src/Hermes/Core/Window.*",
+        "../../Neoncube/src/Hermes/Core/Button.*",
         --"../../Neoncube/src/Hermes/Core/Application.*",
         "../../Neoncube/src/Config/*.*"
     }
