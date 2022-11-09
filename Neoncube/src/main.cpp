@@ -173,7 +173,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdS
 	DeleteFileA("neoncube\\error.log");
 
 	// checks if neoncube.ini exists
-	switch(CheckFileForExistance("neoncube\\neoncube.ini"))
+	switch(CheckFileForExistance(iniFile))
 	{
 
 	case CFFE_FILE_NOT_FOUND:
