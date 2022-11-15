@@ -1,3 +1,6 @@
 [submodule "vendor/premake-core"]
 	path = vendor/premake-core
 	url = https://github.com/premake/premake-core.git
+[submodule "Tests/src/vendor/Catch2"]
+	path = Tests/src/vendor/Catch2
+	url = https://github.com/catchorg/Catch2.git

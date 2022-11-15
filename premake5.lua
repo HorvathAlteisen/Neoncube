@@ -24,4 +24,8 @@ group "Dependencies"
     include "Neoncube/vendor/zlib"
 group ""
 
+group "Tests"
+    include "Tests"
+group ""
+
 include "Neoncube"
